@@ -7,6 +7,7 @@ public class Game {
 
     private Snake snake;
     private int score;
+    private boolean gameOver;
 
     public Game() {
         this.snake = new Snake((int) Math.floor(Constants.columnCount / 2), (int) Math.floor(Constants.rowCount / 2));
@@ -15,6 +16,10 @@ public class Game {
 
     public Snake getSnake() {
         return this.snake;
+    }
+
+    public void update() {
+        System.out.println("Update");
     }
 
 }

@@ -50,9 +50,9 @@ public class Snake {
         return new Coordinate(headCell.getX() + direction[0], headCell.getY() + direction[1]);
     }
 
-    public void grow() {
-        SnakeCell cell = new SnakeCell(0, 0, bodyColor);
-
+    public void grow(Coordinate position) {
+        SnakeCell cell = new SnakeCell(position.getX(), position.getY(), bodyColor);
+        snakeCells.add(cell);
     }
 
 }

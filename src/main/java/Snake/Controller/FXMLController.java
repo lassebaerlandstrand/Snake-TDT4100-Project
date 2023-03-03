@@ -12,6 +12,14 @@ public class FXMLController {
     private Game game;
     private GameView gameView;
 
+    Runnable helloRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // gameView.drawGame();
+            // System.out.println("Hello from " + Thread.currentThread().getName());
+        }
+    };
+
     @FXML
     private Canvas canvas;
 
@@ -24,6 +32,11 @@ public class FXMLController {
     protected void initialize() {
         canvas.requestFocus();
         gameView.draw(canvas, game);
+
+        // ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        // executor.scheduleAtFixedRate(helloRunnable, 0, (long)
+        // Constants.frameTime.toMillis(), TimeUnit.MILLISECONDS);
+
     }
 
     @FXML
