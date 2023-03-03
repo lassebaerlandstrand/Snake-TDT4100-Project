@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,24 +10,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Snake.FXMLController">
+<VBox fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller/Snake.FXMLController">
     <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../java/Snake/img/Apple.png" />
-               </image>
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1">
-               <font>
-                  <Font name="Nirmala UI" size="38.0" />
-               </font>
-            </Text>
-         </children>
-      </HBox>
     
     <Region VBox.vgrow="ALWAYS" />
+      <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/Apple.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="150.0">
+               <font>
+                  <Font name="Rockwell" size="40.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="2.0" left="5.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </HBox>
     
         <Canvas fx:id="canvas" height="600" onKeyPressed="#keyListener" width="600">
         </Canvas>
