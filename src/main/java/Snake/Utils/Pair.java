@@ -1,4 +1,4 @@
-package Snake;
+package Snake.Utils;
 
 public class Pair<T> {
 

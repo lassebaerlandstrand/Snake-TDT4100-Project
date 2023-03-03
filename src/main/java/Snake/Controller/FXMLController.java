@@ -1,8 +1,10 @@
-package Snake;
+package Snake.Controller;
 
-import javafx.event.ActionEvent;
+import Snake.Model.Game;
+import Snake.View.GameView;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyEvent;
 
 // Controller
 public class FXMLController {
@@ -20,22 +22,28 @@ public class FXMLController {
 
     @FXML
     protected void initialize() {
-        gameView.draw(canvas);
+        canvas.requestFocus();
+        gameView.draw(canvas, game);
     }
 
     @FXML
-    private void keyListener(ActionEvent event) {
-        System.out.println("Hei");
-    }
-
-    @FXML
-    private void abc() {
-        System.out.println("A");
-    }
-
-    @FXML
-    private void updateView() {
-        gameView.draw(canvas);
+    private void keyListener(KeyEvent key) {
+        switch (key.getCode()) {
+            case UP:
+                game.getSnake().setDirection(new int[] { 0, 1 });
+                break;
+            case DOWN:
+                game.getSnake().setDirection(new int[] { 0, -1 });
+                break;
+            case LEFT:
+                game.getSnake().setDirection(new int[] { -1, 0 });
+                break;
+            case RIGHT:
+                game.getSnake().setDirection(new int[] { 1, 0 });
+                break;
+            default:
+                break;
+        }
     }
 
 }

@@ -10,32 +10,38 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller/Snake.FXMLController">
+<VBox fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="800.0" style="-fx-background-color: #2a520e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Snake.Controller.FXMLController">
     <children>
     
     <Region VBox.vgrow="ALWAYS" />
-      <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: #4a752c;">
          <children>
             <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/Apple.png" />
                </image>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
             </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="150.0">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="150.0">
                <font>
-                  <Font name="Rockwell" size="40.0" />
+                  <Font name="Leelawadee UI Bold" size="40.0" />
                </font>
                <HBox.margin>
-                  <Insets bottom="2.0" left="5.0" />
+                  <Insets bottom="2.0" left="12.0" />
                </HBox.margin>
             </Text>
          </children>
          <padding>
-            <Insets bottom="10.0" />
+            <Insets bottom="20.0" />
          </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </HBox>
     
-        <Canvas fx:id="canvas" height="600" onKeyPressed="#keyListener" width="600">
+        <Canvas fx:id="canvas" focusTraversable="true" height="800.0" onKeyPressed="#keyListener" width="800.0">
         </Canvas>
     </children>
 </VBox>
