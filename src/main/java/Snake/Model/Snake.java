@@ -24,12 +24,9 @@ public class Snake {
         snakeCells.add(headCell);
     }
 
-    // Copy snake
+    // Deep copy snake
     public Snake(Snake snake) {
-        this.snakeCells = new ArrayList<>();
-        for (SnakeCell snakeCell : snake.getSnakeCells()) {
-            this.snakeCells.add(new SnakeCell(snakeCell));
-        }
+        this.snakeCells = snake.getSnakeCells().stream().map(cell -> new SnakeCell(cell)).collect(Collectors.toList());
         this.currentFrameDirection = snake.getCurrentFrameDirection();
         this.nextFrameDirection = snake.getNextFrameDirection();
     }

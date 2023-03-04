@@ -29,6 +29,15 @@ public class SnakeCell extends Coordinate {
     }
 
     @Override
+    public boolean equals(Object arg0) {
+        if (!(arg0 instanceof SnakeCell)) {
+            return false;
+        }
+        return this.getX() == ((Coordinate) arg0).getX() && this.getY() == ((Coordinate) arg0).getY()
+                && this.color == ((SnakeCell) arg0).getColor();
+    }
+
+    @Override
     public String toString() {
         return "SnakeCell [color=" + color + ", x=" + getX() + ", y=" + getY() + "]";
     }
