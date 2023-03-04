@@ -11,6 +11,15 @@ public class SnakeCell extends Coordinate {
         this.color = color;
     }
 
+    public SnakeCell(SnakeCell snakeCell) {
+        super(snakeCell.getX(), snakeCell.getY());
+        this.color = snakeCell.getColor();
+    }
+
+    public Coordinate getPos() {
+        return new Coordinate(getX(), getY());
+    }
+
     public Color getColor() {
         return this.color;
     }

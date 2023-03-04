@@ -1,7 +1,9 @@
 package Snake.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
@@ -9,7 +11,8 @@ import javafx.scene.paint.Color;
 public class Snake {
 
     List<SnakeCell> snakeCells;
-    private int[] direction = new int[] { 0, 1 }; // X, Y - Direction
+    private int[] currentFrameDirection = new int[] { 0, 0 }; // X, Y - Direction
+    private int[] nextFrameDirection = currentFrameDirection;
 
     private Color headColor = Color.web("#008000");
     private Color bodyColor = Color.web("#07bc07");
@@ -21,18 +24,42 @@ public class Snake {
         snakeCells.add(headCell);
     }
 
-    public int[] getDirection() {
-        return direction;
+    // Copy snake
+    public Snake(Snake snake) {
+        this.snakeCells = new ArrayList<>();
+        for (SnakeCell snakeCell : snake.getSnakeCells()) {
+            this.snakeCells.add(new SnakeCell(snakeCell));
+        }
+        this.currentFrameDirection = snake.getCurrentFrameDirection();
+        this.nextFrameDirection = snake.getNextFrameDirection();
     }
 
-    public void setDirection(int[] direction) throws IllegalArgumentException {
+    public int[] getNextFrameDirection() {
+        return nextFrameDirection;
+    }
+
+    public void setNextFrameDirection(int[] direction) throws IllegalArgumentException {
         if (direction.length != 2)
             throw new IllegalArgumentException("Direction must be an array of length 2");
-        this.direction = direction;
+        this.nextFrameDirection = direction;
+    }
+
+    public int[] getCurrentFrameDirection() {
+        if (nextFrameDirection.length != 2)
+            throw new IllegalArgumentException("Direction must be an array of length 2");
+        return currentFrameDirection;
+    }
+
+    public void setCurrentFrameDirection(int[] direction) {
+        this.currentFrameDirection = direction;
     }
 
     public List<SnakeCell> getSnakeCells() {
         return snakeCells;
+    }
+
+    public List<Coordinate> getSnakeCoordinates() {
+        return snakeCells.stream().map(cell -> cell.getPos()).collect(Collectors.toList());
     }
 
     private void addToSnakeCells(int index, SnakeCell cell) {
@@ -47,11 +74,17 @@ public class Snake {
         return snakeCells.get(0);
     }
 
+    public int getLength() {
+        return snakeCells.size();
+    }
+
     public Coordinate nextPosition() {
-        return new Coordinate(getHead().getX() + direction[0], getHead().getY() + direction[1]);
+        return new Coordinate(getHead().getX() + nextFrameDirection[0], getHead().getY() + nextFrameDirection[1]);
     }
 
     public boolean nextMoveValid() {
+        if (Arrays.equals(nextFrameDirection, new int[] { 0, 0 }))
+            return true;
         Coordinate nextPos = nextPosition();
 
         // Hit wall
@@ -74,7 +107,8 @@ public class Snake {
         Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());
 
         // Get next position
-        Coordinate nextPos = new Coordinate(headPos.getX() + direction[0], headCell.getY() + direction[1]);
+        Coordinate nextPos = new Coordinate(headPos.getX() + nextFrameDirection[0],
+                headCell.getY() + nextFrameDirection[1]);
 
         // Move the head
         headCell.setX(nextPos.getX());
@@ -82,14 +116,14 @@ public class Snake {
         replaceSnakeCell(0, headCell);
 
         // Insert new cell where head previously was
-        if (snakeCells.size() > 1) {
+        if (getLength() > 1 || (grow && getLength() == 1)) {
             SnakeCell newSnakeCell = new SnakeCell(headPos.getX(), headPos.getY(), bodyColor);
             addToSnakeCells(1, newSnakeCell);
         }
 
         // Don't remove tail if we are growing
-        if (snakeCells.size() > 1 && !grow)
-            snakeCells.remove(snakeCells.size() - 1);
+        if (getLength() > 1 && !grow)
+            snakeCells.remove(getLength() - 1);
     }
 
     public void setHeadColor(Color color) {

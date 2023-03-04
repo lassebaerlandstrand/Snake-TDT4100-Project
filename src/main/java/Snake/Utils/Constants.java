@@ -9,8 +9,6 @@ public class Constants {
 
     public static final int ROWCOUNT = 25;
     public static final int COLUMNCOUNT = 25;
+    public static final int CELLSIZE = 28;
 
-    /*
-     * public static enum CELL { EMPTY, SNAKE }
-     */
 }

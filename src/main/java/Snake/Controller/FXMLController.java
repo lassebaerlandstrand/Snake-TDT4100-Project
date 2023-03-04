@@ -40,6 +40,7 @@ public class FXMLController {
     @FXML
     protected void initialize() {
         canvas.requestFocus();
+        gameView.drawBackground(canvas, game);
         gameView.drawFrame(canvas, game);
         scoreText.setText(String.valueOf(game.getScore()));
 
@@ -50,17 +51,29 @@ public class FXMLController {
     @FXML
     private void keyListener(KeyEvent key) {
         switch (key.getCode()) {
+            case W:
             case UP:
-                game.getSnake().setDirection(new int[] { 0, 1 });
+                if (game.getSnake().getCurrentFrameDirection()[1] == -1 && game.getSnake().getLength() > 1) // Cannot reverse back into itself
+                    break;
+                game.getSnake().setNextFrameDirection(new int[] { 0, 1 });
                 break;
+            case S:
             case DOWN:
-                game.getSnake().setDirection(new int[] { 0, -1 });
+                if (game.getSnake().getCurrentFrameDirection()[1] == 1 && game.getSnake().getLength() > 1)
+                    break;
+                game.getSnake().setNextFrameDirection(new int[] { 0, -1 });
                 break;
+            case A:
             case LEFT:
-                game.getSnake().setDirection(new int[] { -1, 0 });
+                if (game.getSnake().getCurrentFrameDirection()[0] == 1 && game.getSnake().getLength() > 1)
+                    break;
+                game.getSnake().setNextFrameDirection(new int[] { -1, 0 });
                 break;
+            case D:
             case RIGHT:
-                game.getSnake().setDirection(new int[] { 1, 0 });
+                if (game.getSnake().getCurrentFrameDirection()[0] == -1 && game.getSnake().getLength() > 1)
+                    break;
+                game.getSnake().setNextFrameDirection(new int[] { 1, 0 });
                 break;
             default:
                 break;

@@ -14,6 +14,9 @@ public class Game {
     private int score;
     private boolean gameOver;
     private Food food;
+    private boolean paused = false;
+
+    public int frameCounter = 0;
 
     // Save a copy of allPositions to avoid creating a new list every time
     private List<Coordinate> allPositions;
@@ -54,15 +57,18 @@ public class Game {
     }
 
     public void update() {
-        if (gameOver)
+        frameCounter++;
+        if (gameOver || paused)
             return;
 
         if (snake.nextMoveValid()) {
-            if (snake.nextPosition() == food.getPos()) {
+            boolean ateFood = snake.nextPosition().equals(food.getPos());
+            if (ateFood) {
                 increaseScore();
                 food = new Food(getRandomAvailablePosition());
             }
-            snake.move(snake.nextPosition() == food.getPos());
+            snake.move(ateFood);
+            snake.setCurrentFrameDirection(snake.getNextFrameDirection());
         } else {
             gameOver = true;
             snake.setHeadColor(Color.web("#ff0000"));
@@ -80,7 +86,7 @@ public class Game {
         List<Coordinate> allPositionsCopy = new ArrayList<Coordinate>(allPositions);
 
         List<Coordinate> snakeCoordinates = snake.getSnakeCells().stream()
-                .map(cell -> new Coordinate(cell.getX(), cell.getY())).collect(Collectors.toList());
+                .map(cell -> cell.getPos()).collect(Collectors.toList());
 
         allPositionsCopy.removeAll(snakeCoordinates);
         return allPositionsCopy;

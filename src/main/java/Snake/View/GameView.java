@@ -1,6 +1,10 @@
 package Snake.View;
 
+import java.util.List;
+
+import Snake.Model.Coordinate;
 import Snake.Model.Game;
+import Snake.Model.Snake;
 import Snake.Model.SnakeCell;
 import Snake.Utils.Constants;
 import javafx.animation.KeyFrame;
@@ -15,23 +19,21 @@ public class GameView {
 
     private Timeline timeline;
     private double lineWidth = 0d; // Lines between grid cells
-    private int borderWidth = 25;
+    private double cellBorderWidth = 1d; // Border around grid cells
+    private int borderWidth = (800 - (Constants.COLUMNCOUNT * Constants.CELLSIZE)) / 2;
     private Color backgroundColorLight = Color.web("#acd855");
     private Color backgroundColorDark = Color.web("#a2d149");
     private Color borderColor = Color.web("#578a34");
+
+    // Used for optimizing draw function, to only draw the changed cells, not redraw the whole grid
+    private Snake previousDrawnSnake;
 
     private void drawGameOver() {
 
     }
 
-    private void drawGame(GraphicsContext context, Canvas canvas, Game game) {
-
-        double gameSizeX = canvas.getWidth() - 2 * borderWidth;
-        double gameSizeY = canvas.getHeight() - 2 * borderWidth;
-
-        double cellSizeX = gameSizeX / Constants.COLUMNCOUNT;
-        double cellSizeY = gameSizeY / Constants.ROWCOUNT;
-        double cellSize = Math.min(cellSizeX, cellSizeY);
+    public void drawBackground(Canvas canvas, Game game) {
+        GraphicsContext context = canvas.getGraphicsContext2D();
 
         // Border
         context.setFill(borderColor);
@@ -45,31 +47,75 @@ public class GameView {
                 } else {
                     context.setFill(backgroundColorDark);
                 }
-                context.fillRect(i * cellSize + borderWidth, j * cellSize + borderWidth, cellSize,
-                        cellSize);
+                context.fillRect(i * Constants.CELLSIZE + borderWidth,
+                        (Constants.ROWCOUNT - 1 - j) * Constants.CELLSIZE + borderWidth,
+                        Constants.CELLSIZE,
+                        Constants.CELLSIZE);
+            }
+        }
+    }
+
+    private List<Coordinate> unusedCells(Snake previousDrawnSnake, Snake currentSnake) {
+
+        List<Coordinate> previousCells = previousDrawnSnake.getSnakeCoordinates();
+        List<Coordinate> currentCells = currentSnake.getSnakeCoordinates();
+        // System.out.println("Previous cells: " + previousCells);
+        // System.out.println("Current cells: " + currentCells);
+        previousCells.removeAll(currentCells);
+        return previousCells;
+    }
+
+    private boolean shouldDrawCellBorder() {
+        return Math.max(Constants.COLUMNCOUNT, Constants.ROWCOUNT) < 100;
+    }
+
+    private void drawGame(GraphicsContext context, Canvas canvas, Game game) {
+
+        // Reset unused cells (where snake previously was)
+        if (previousDrawnSnake != null) {
+            // System.out.println("Previous drawn snake: " + previousDrawnSnake);
+            for (Coordinate coordinate : unusedCells(previousDrawnSnake, game.getSnake())) {
+                if ((coordinate.getX() + coordinate.getY()) % 2 == 0) {
+                    context.setFill(backgroundColorLight);
+                } else {
+                    context.setFill(backgroundColorDark);
+                }
+                context.fillRect(coordinate.getX() * Constants.CELLSIZE + borderWidth,
+                        (Constants.ROWCOUNT - 1 - coordinate.getY()) * Constants.CELLSIZE + borderWidth,
+                        Constants.CELLSIZE, Constants.CELLSIZE);
             }
         }
 
         // Snake
         context.setStroke(Color.WHITE);
+        context.setLineWidth(cellBorderWidth);
         for (SnakeCell snakeCell : game.getSnake().getSnakeCells()) {
             context.setFill(snakeCell.getColor());
-            context.fillRect(snakeCell.getX() * cellSize + borderWidth,
-                    (Constants.ROWCOUNT - 1 - snakeCell.getY()) * cellSize + borderWidth,
-                    cellSize - lineWidth,
-                    cellSize - lineWidth);
-            context.strokeRect(snakeCell.getX() * cellSize + borderWidth,
-                    (Constants.ROWCOUNT - 1 - snakeCell.getY()) * cellSize + borderWidth,
-                    cellSize - lineWidth,
-                    cellSize - lineWidth);
+            context.fillRect(snakeCell.getX() * Constants.CELLSIZE + borderWidth,
+                    (Constants.ROWCOUNT - 1 - snakeCell.getY()) * Constants.CELLSIZE + borderWidth,
+                    Constants.CELLSIZE - lineWidth,
+                    Constants.CELLSIZE - lineWidth);
+            context.strokeRect(snakeCell.getX() * Constants.CELLSIZE + borderWidth + cellBorderWidth / 2,
+                    (Constants.ROWCOUNT - 1 - snakeCell.getY()) * Constants.CELLSIZE + borderWidth
+                            + cellBorderWidth / 2,
+                    Constants.CELLSIZE - lineWidth - cellBorderWidth,
+                    Constants.CELLSIZE - lineWidth - cellBorderWidth);
         }
 
         // Apple
-        /* context.setFill(game.getFood().getColor());
-        context.fillRect(game.getFood().getX() * cellSize + borderWidth,
-                (Constants.ROWCOUNT - 1 - game.getFood().getY()) * cellSize + borderWidth,
-                cellSize - lineWidth,
-                cellSize - lineWidth); */
+        context.setFill(game.getFood().getColor());
+        context.setLineWidth(cellBorderWidth);
+        context.fillRect(game.getFood().getX() * Constants.CELLSIZE + borderWidth,
+                (Constants.ROWCOUNT - 1 - game.getFood().getY()) * Constants.CELLSIZE + borderWidth,
+                Constants.CELLSIZE - lineWidth,
+                Constants.CELLSIZE - lineWidth);
+        context.strokeRect(game.getFood().getX() * Constants.CELLSIZE + borderWidth + cellBorderWidth / 2,
+                (Constants.ROWCOUNT - 1 - game.getFood().getY()) * Constants.CELLSIZE + borderWidth
+                        + cellBorderWidth / 2,
+                Constants.CELLSIZE - lineWidth - cellBorderWidth,
+                Constants.CELLSIZE - lineWidth - cellBorderWidth);
+
+        previousDrawnSnake = new Snake(game.getSnake());
     }
 
     public void drawFrame(Canvas canvas, Game game) {

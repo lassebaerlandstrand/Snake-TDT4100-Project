@@ -28,4 +28,17 @@ public class Coordinate implements CoordinateInterface {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object arg0) {
+        if (!(arg0 instanceof Coordinate)) {
+            return false;
+        }
+        return this.x == ((Coordinate) arg0).getX() && this.y == ((Coordinate) arg0).getY();
+    }
+
 }
