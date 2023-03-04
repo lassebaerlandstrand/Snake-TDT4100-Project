@@ -19,4 +19,9 @@ public class SnakeCell extends Coordinate {
         this.color = color;
     }
 
+    @Override
+    public String toString() {
+        return "SnakeCell [color=" + color + ", x=" + getX() + ", y=" + getY() + "]";
+    }
+
 }

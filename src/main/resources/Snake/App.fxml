@@ -24,7 +24,7 @@
                   <Insets left="30.0" />
                </HBox.margin>
             </ImageView>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="150.0">
+            <Text fx:id="scoreText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="150.0">
                <font>
                   <Font name="Leelawadee UI Bold" size="40.0" />
                </font>

@@ -22,5 +22,11 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Snake");
         primaryStage.show();
+
+        // VSCode doesn't stop displaying run controller on close (Pressing X on
+        // window), this is a workaround
+        primaryStage.setOnCloseRequest(event -> {
+            System.exit(0);
+        });
     }
 }
