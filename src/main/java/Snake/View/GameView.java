@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 public class GameView {
 
     private Timeline timeline;
-    private double lineWidth = 0d;
+    private double lineWidth = 0d; // Lines between grid cells
     private int borderWidth = 25;
     private Color backgroundColorLight = Color.web("#acd855");
     private Color backgroundColorDark = Color.web("#a2d149");
@@ -65,7 +65,11 @@ public class GameView {
         }
 
         // Apple
-
+        /* context.setFill(game.getFood().getColor());
+        context.fillRect(game.getFood().getX() * cellSize + borderWidth,
+                (Constants.ROWCOUNT - 1 - game.getFood().getY()) * cellSize + borderWidth,
+                cellSize - lineWidth,
+                cellSize - lineWidth); */
     }
 
     public void drawFrame(Canvas canvas, Game game) {

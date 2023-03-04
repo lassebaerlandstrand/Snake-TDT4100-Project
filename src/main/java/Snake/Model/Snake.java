@@ -47,11 +47,12 @@ public class Snake {
         return snakeCells.get(0);
     }
 
-    public boolean nextMoveValid() {
-        SnakeCell headCell = getHead();
-        Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());
+    public Coordinate nextPosition() {
+        return new Coordinate(getHead().getX() + direction[0], getHead().getY() + direction[1]);
+    }
 
-        Coordinate nextPos = new Coordinate(headPos.getX() + direction[0], headCell.getY() + direction[1]);
+    public boolean nextMoveValid() {
+        Coordinate nextPos = nextPosition();
 
         // Hit wall
         if (nextPos.getX() < 0 || nextPos.getX() >= Constants.COLUMNCOUNT || nextPos.getY() < 0
@@ -66,7 +67,8 @@ public class Snake {
         return true;
     }
 
-    public void move() {
+    // Returns true if apple is eaten
+    public void move(boolean grow) {
 
         SnakeCell headCell = getHead();
         Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());
@@ -85,25 +87,22 @@ public class Snake {
             addToSnakeCells(1, newSnakeCell);
         }
 
-        // Remove the tail if apple is eaten
-        // if (!appleEaten) {
-        if (snakeCells.size() > 1)
+        // Don't remove tail if we are growing
+        if (snakeCells.size() > 1 && !grow)
             snakeCells.remove(snakeCells.size() - 1);
     }
 
     public void setHeadColor(Color color) {
         this.headColor = color;
 
-        // Since the color is passed by value, we need to update the color of the head
-        // cell
+        // Since the color is passed by value, we need to update the color of the head cell
         getHead().setColor(color);
     }
 
     public void setBodyColor(Color color) {
         this.bodyColor = color;
 
-        // Since the color is passed by value, we need to update the color of the cells
-        // by looping through them
+        // Since the color is passed by value, we need to update the color of the cells by looping through them
         getSnakeCells().stream().skip(1).forEach(cell -> cell.setColor(color));
     }
 

@@ -21,8 +21,6 @@ public class FXMLController {
     Runnable frameUpdate = new Runnable() {
         @Override
         public void run() {
-            // gameView.drawGame();
-            // System.out.println("Hello from " + Thread.currentThread().getName());
             game.update();
             gameView.drawFrame(canvas, game);
         }
