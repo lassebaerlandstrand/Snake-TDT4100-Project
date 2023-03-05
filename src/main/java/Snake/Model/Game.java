@@ -16,13 +16,12 @@ public class Game {
     private Food food;
     private boolean paused = false;
 
-    public int frameCounter = 0;
-
     // Save a copy of allPositions to avoid creating a new list every time
     private List<Coordinate> allPositions;
 
     public Game() {
-        this.snake = new Snake((int) Math.floor(Constants.COLUMNCOUNT / 2), (int) Math.floor(Constants.ROWCOUNT / 2));
+        this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
+                (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
 
         allPositions = new ArrayList<Coordinate>();
@@ -57,7 +56,6 @@ public class Game {
     }
 
     public void update() {
-        frameCounter++;
         if (gameOver || paused)
             return;
 

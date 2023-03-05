@@ -80,4 +80,9 @@ public class FXMLController {
         }
     }
 
+    @FXML
+    private void handleHighScoreButton() {
+        System.out.println("High Score Button Pressed");
+    }
+
 }
