@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Snake.Model.Coordinate;
+import Snake.Model.Food;
 import Snake.Model.Game;
 import Snake.Model.Snake;
 import Snake.Model.SnakeCell;
@@ -28,6 +29,7 @@ public class GameView {
 
     // Used for optimizing draw function, to only draw the changed cells, not redraw the whole grid
     private Snake previousDrawnSnake;
+    private Food previousApple;
 
     private void drawGameOver() {
 
@@ -41,18 +43,19 @@ public class GameView {
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Background
-        for (int i = 0; i < Constants.COLUMNCOUNT; i++) {
-            for (int j = 0; j < Constants.ROWCOUNT; j++) {
-                if ((i + j) % 2 == 0) {
-                    context.setFill(backgroundColorLight);
-                } else {
-                    context.setFill(backgroundColorDark);
-                }
-                context.fillRect(i * Constants.CELLSIZE + borderWidth,
-                        (Constants.ROWCOUNT - 1 - j) * Constants.CELLSIZE + borderWidth,
-                        Constants.CELLSIZE,
-                        Constants.CELLSIZE);
-            }
+        // Draw large rectangle with one color, then fill in the small rectangles with the other color
+        context.setFill(backgroundColorLight);
+        context.fillRect(borderWidth, borderWidth, canvas.getWidth() - borderWidth * 2,
+                canvas.getHeight() - borderWidth * 2);
+
+        context.setFill(backgroundColorDark);
+        for (int i = 0; i < Constants.COLUMNCOUNT * Constants.ROWCOUNT; i += 2) {
+            context.fillRect(
+                    borderWidth + (i % Constants.COLUMNCOUNT
+                            + ((Constants.ROWCOUNT + 1) % 2 * ((i / Constants.ROWCOUNT + 1) % 2)))
+                            * Constants.CELLSIZE,
+                    borderWidth + (i / Constants.ROWCOUNT) * Constants.CELLSIZE,
+                    Constants.CELLSIZE, Constants.CELLSIZE);
         }
     }
 
@@ -91,7 +94,7 @@ public class GameView {
         if (previousDrawnSnake != null) {
             // System.out.println("Previous drawn snake: " + previousDrawnSnake);
             for (Coordinate coordinate : unusedCells(previousDrawnSnake, game.getSnake())) {
-                if ((coordinate.getX() + coordinate.getY()) % 2 == 0) {
+                if ((coordinate.getX() + coordinate.getY()) % 2 != 0) {
                     context.setFill(backgroundColorLight);
                 } else {
                     context.setFill(backgroundColorDark);
@@ -112,9 +115,12 @@ public class GameView {
         }
 
         // Apple
-        drawCell(context, game.getFood().getX(), game.getFood().getY(), game.getFood().getColor());
+        if (!game.getFood().equals(previousApple)) {
+            drawCell(context, game.getFood().getX(), game.getFood().getY(), game.getFood().getColor());
+        }
 
         previousDrawnSnake = new Snake(game.getSnake());
+        previousApple = new Food(game.getFood().getPos());
     }
 
     public void drawFrame(Canvas canvas, Game game) {

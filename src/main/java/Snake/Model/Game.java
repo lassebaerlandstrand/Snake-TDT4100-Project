@@ -71,6 +71,7 @@ public class Game {
             snake.setCurrentFrameDirection(snake.getNextFrameDirection());
         } else {
             gameOver = true;
+            System.out.println("DEAD");
             snake.setHeadColor(Color.web("#ff0000"));
             snake.setBodyColor(Color.web("#fb5d39"));
         }

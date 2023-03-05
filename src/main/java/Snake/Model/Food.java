@@ -15,6 +15,13 @@ public class Food extends Coordinate {
         super(coord.getX(), coord.getY());
     }
 
+    // Copy
+    public Food(Food food) {
+        super(food.getX(), food.getY());
+        this.isEaten = food.isEaten();
+        this.color = food.getColor();
+    }
+
     public Coordinate getPos() {
         return new Coordinate(getX(), getY());
     }
@@ -26,6 +33,15 @@ public class Food extends Coordinate {
 
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public boolean equals(Object arg0) {
+        if (!(arg0 instanceof Food)) {
+            return false;
+        }
+        return this.getX() == ((Coordinate) arg0).getX() && this.getY() == ((Coordinate) arg0).getY()
+                && this.color == ((Food) arg0).getColor();
     }
 
 }
