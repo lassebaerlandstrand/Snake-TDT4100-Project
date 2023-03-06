@@ -11,15 +11,16 @@ import javafx.scene.paint.Color;
 public class Snake {
 
     List<SnakeCell> snakeCells;
-    private int[] currentFrameDirection = new int[] { 0, 0 }; // X, Y - Direction
-    private int[] nextFrameDirection = currentFrameDirection;
+    // private int[] currentFrameDirection = new int[] { 0, 0 }; // X, Y - Direction
+    // private int[] nextFrameDirection = currentFrameDirection;
+    private DirectionQueueList directionQueue = new DirectionQueueList(
+            new ArrayList<int[]>(Arrays.asList(new int[] { 0, 0 })));
 
     private Color headColor = Color.web("#008000");
     private Color bodyColor = Color.web("#07bc07");
 
     public Snake(int startX, int startY) {
         this.snakeCells = new ArrayList<SnakeCell>();
-
         SnakeCell headCell = new SnakeCell(startX, startY, headColor);
         snakeCells.add(headCell);
     }
@@ -27,28 +28,60 @@ public class Snake {
     // Deep copy snake
     public Snake(Snake snake) {
         this.snakeCells = snake.getSnakeCells().stream().map(cell -> new SnakeCell(cell)).collect(Collectors.toList());
-        this.currentFrameDirection = snake.getCurrentFrameDirection();
-        this.nextFrameDirection = snake.getNextFrameDirection();
+        // this.currentFrameDirection = snake.getCurrentFrameDirection();
+        // this.nextFrameDirection = snake.getNextFrameDirection();
     }
 
-    public int[] getNextFrameDirection() {
-        return nextFrameDirection;
+    // public int[] getNextFrameDirection() {
+    //     return nextFrameDirection;
+    // }
+
+    // public void setNextFrameDirection(int[] direction) throws IllegalArgumentException {
+    //     if (direction.length != 2)
+    //         throw new IllegalArgumentException("Direction must be an array of length 2");
+    //     this.nextFrameDirection = direction;
+    // }
+
+    // public int[] getCurrentFrameDirection() {
+    //     if (nextFrameDirection.length != 2)
+    //         throw new IllegalArgumentException("Direction must be an array of length 2");
+    //     return currentFrameDirection;
+    // }
+
+    // public void setCurrentFrameDirection(int[] direction) {
+    //     this.currentFrameDirection = direction;
+    // }
+
+    public int[] getDirectionPeek() {
+        return directionQueue.peek();
     }
 
-    public void setNextFrameDirection(int[] direction) throws IllegalArgumentException {
+    public int[] getDirection() {
+        return directionQueue.getRemoveFirst();
+    }
+
+    public int[] getLastDirectionPeek() {
+        return directionQueue.peekLast();
+    }
+
+    public int getDirectionSize() {
+        return directionQueue.size();
+    }
+
+    private String printDirection() {
+        StringBuilder sb = new StringBuilder();
+        for (int[] direction : directionQueue) {
+            sb.append("[" + direction[0] + ", " + direction[1] + "]");
+        }
+        return sb.toString();
+    }
+
+    public void addDirection(int[] direction) throws IllegalArgumentException {
         if (direction.length != 2)
             throw new IllegalArgumentException("Direction must be an array of length 2");
-        this.nextFrameDirection = direction;
-    }
-
-    public int[] getCurrentFrameDirection() {
-        if (nextFrameDirection.length != 2)
-            throw new IllegalArgumentException("Direction must be an array of length 2");
-        return currentFrameDirection;
-    }
-
-    public void setCurrentFrameDirection(int[] direction) {
-        this.currentFrameDirection = direction;
+        System.out.println("Before: " + printDirection());
+        directionQueue.add(direction);
+        System.out.println("After: " + printDirection());
     }
 
     public List<SnakeCell> getSnakeCells() {
@@ -75,14 +108,25 @@ public class Snake {
         return snakeCells.size();
     }
 
-    public Coordinate nextPosition() {
-        return new Coordinate(getHead().getX() + nextFrameDirection[0], getHead().getY() + nextFrameDirection[1]);
+    public Coordinate nextPositionPeek() {
+        //return new Coordinate(getHead().getX() + nextFrameDirection[0], getHead().getY() + nextFrameDirection[1]);
+
+        return new Coordinate(getHead().getX() + getDirectionPeek()[0], getHead().getY() + getDirectionPeek()[1]);
+    }
+
+    private Coordinate nextPosition() {
+        //return new Coordinate(getHead().getX() + nextFrameDirection[0], getHead().getY() + nextFrameDirection[1]);
+
+        int[] direction = getDirection();
+        return new Coordinate(getHead().getX() + direction[0], getHead().getY() + direction[1]);
     }
 
     public boolean nextMoveValid() {
-        if (Arrays.equals(nextFrameDirection, new int[] { 0, 0 }))
+        // if (Arrays.equals(nextFrameDirection, new int[] { 0, 0 }))
+        //     return true;
+        if (Arrays.equals(directionQueue.peek(), new int[] { 0, 0 }))
             return true;
-        Coordinate nextPos = nextPosition();
+        Coordinate nextPos = nextPositionPeek();
 
         // Hit wall
         if (nextPos.getX() < 0 || nextPos.getX() >= Constants.COLUMNCOUNT || nextPos.getY() < 0
@@ -102,10 +146,7 @@ public class Snake {
 
         SnakeCell headCell = getHead();
         Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());
-
-        // Get next position
-        Coordinate nextPos = new Coordinate(headPos.getX() + nextFrameDirection[0],
-                headCell.getY() + nextFrameDirection[1]);
+        Coordinate nextPos = nextPosition();
 
         // Move the head
         headCell.setX(nextPos.getX());

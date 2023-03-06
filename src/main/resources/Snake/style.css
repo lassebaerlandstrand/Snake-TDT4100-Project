@@ -7,6 +7,6 @@
     -fx-cursor: hand;
 }
 
-#highScoreButton:active {
+#highScoreButton:pressed {
     -fx-background-color: rgb(0, 53, 16);
 }

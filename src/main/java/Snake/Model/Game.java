@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import Snake.Controller.Controller;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
 
@@ -15,14 +16,16 @@ public class Game {
     private boolean gameOver;
     private Food food;
     private boolean paused = false;
+    private Controller controller;
 
     // Save a copy of allPositions to avoid creating a new list every time
     private List<Coordinate> allPositions;
 
-    public Game() {
+    public Game(Controller controller) {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
+        this.controller = controller;
 
         allPositions = new ArrayList<Coordinate>();
         for (int x = 0; x < Constants.COLUMNCOUNT; x++) {
@@ -52,7 +55,10 @@ public class Game {
 
     public void increaseScore() {
         this.score++;
+
         // Observable
+        controller.setScoreText(score);
+        controller.setHighscoreText(score);
     }
 
     public void update() {
@@ -60,13 +66,14 @@ public class Game {
             return;
 
         if (snake.nextMoveValid()) {
-            boolean ateFood = snake.nextPosition().equals(food.getPos());
+
+            boolean ateFood = snake.nextPositionPeek().equals(food.getPos());
             if (ateFood) {
                 increaseScore();
                 food = new Food(getRandomAvailablePosition());
             }
             snake.move(ateFood);
-            snake.setCurrentFrameDirection(snake.getNextFrameDirection());
+            // snake.setCurrentFrameDirection(snake.getNextFrameDirection());
         } else {
             gameOver = true;
             System.out.println("DEAD");

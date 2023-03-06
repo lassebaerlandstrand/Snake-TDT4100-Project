@@ -13,10 +13,24 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 // Controller
-public class FXMLController {
+public class FXMLController implements Controller {
 
     private Game game;
     private GameView gameView;
+
+    @FXML
+    private Canvas canvas;
+
+    @FXML
+    private Text scoreText;
+
+    @FXML
+    private Text highscoreText;
+
+    public FXMLController() {
+        this.game = new Game(this);
+        this.gameView = new GameView();
+    }
 
     Runnable frameUpdate = new Runnable() {
         @Override
@@ -27,22 +41,10 @@ public class FXMLController {
     };
 
     @FXML
-    private Canvas canvas;
-
-    @FXML
-    private Text scoreText;
-
-    public FXMLController() {
-        this.game = new Game();
-        this.gameView = new GameView();
-    }
-
-    @FXML
     protected void initialize() {
         canvas.requestFocus();
         gameView.drawBackground(canvas, game);
         gameView.drawFrame(canvas, game);
-        scoreText.setText(String.valueOf(game.getScore()));
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(frameUpdate, 0, (long) Constants.FRAMETIME.toMillis(), TimeUnit.MILLISECONDS);
@@ -53,27 +55,43 @@ public class FXMLController {
         switch (key.getCode()) {
             case W:
             case UP:
-                if (game.getSnake().getCurrentFrameDirection()[1] == -1 && game.getSnake().getLength() > 1) // Cannot reverse back into itself
+                // if (game.getSnake().getCurrentFrameDirection()[1] == -1 && game.getSnake().getLength() > 1) // Cannot reverse back into itself
+                //     break;
+                // game.getSnake().setNextFrameDirection(new int[] { 0, 1 });
+                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[1] == -1
+                        && game.getSnake().getLength() > 1)
                     break;
-                game.getSnake().setNextFrameDirection(new int[] { 0, 1 });
+                game.getSnake().addDirection(new int[] { 0, 1 });
                 break;
             case S:
             case DOWN:
-                if (game.getSnake().getCurrentFrameDirection()[1] == 1 && game.getSnake().getLength() > 1)
+                // if (game.getSnake().getCurrentFrameDirection()[1] == 1 && game.getSnake().getLength() > 1)
+                //     break;
+                // game.getSnake().setNextFrameDirection(new int[] { 0, -1 });
+                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[1] == 1
+                        && game.getSnake().getLength() > 1)
                     break;
-                game.getSnake().setNextFrameDirection(new int[] { 0, -1 });
+                game.getSnake().addDirection(new int[] { 0, -1 });
                 break;
             case A:
             case LEFT:
-                if (game.getSnake().getCurrentFrameDirection()[0] == 1 && game.getSnake().getLength() > 1)
+                // if (game.getSnake().getCurrentFrameDirection()[0] == 1 && game.getSnake().getLength() > 1)
+                //     break;
+                // game.getSnake().setNextFrameDirection(new int[] { -1, 0 });
+                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[0] == 1
+                        && game.getSnake().getLength() > 1)
                     break;
-                game.getSnake().setNextFrameDirection(new int[] { -1, 0 });
+                game.getSnake().addDirection(new int[] { -1, 0 });
                 break;
             case D:
             case RIGHT:
-                if (game.getSnake().getCurrentFrameDirection()[0] == -1 && game.getSnake().getLength() > 1)
+                // if (game.getSnake().getCurrentFrameDirection()[0] == -1 && game.getSnake().getLength() > 1)
+                //     break;
+                // game.getSnake().setNextFrameDirection(new int[] { 1, 0 });
+                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[0] == -1
+                        && game.getSnake().getLength() > 1)
                     break;
-                game.getSnake().setNextFrameDirection(new int[] { 1, 0 });
+                game.getSnake().addDirection(new int[] { 1, 0 });
                 break;
             default:
                 break;
@@ -83,6 +101,17 @@ public class FXMLController {
     @FXML
     private void handleHighScoreButton() {
         System.out.println("High Score Button Pressed");
+    }
+
+    @Override
+    public void setScoreText(int score) {
+        scoreText.setText(String.valueOf(score));
+    }
+
+    @Override
+    public void setHighscoreText(int score) {
+        if (Integer.parseInt(highscoreText.getText()) < score)
+            highscoreText.setText(String.valueOf(score));
     }
 
 }
