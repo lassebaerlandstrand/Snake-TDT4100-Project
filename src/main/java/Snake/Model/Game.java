@@ -66,7 +66,6 @@ public class Game {
             return;
 
         if (snake.nextMoveValid()) {
-
             boolean ateFood = snake.nextPositionPeek().equals(food.getPos());
             if (ateFood) {
                 increaseScore();

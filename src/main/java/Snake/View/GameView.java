@@ -92,7 +92,6 @@ public class GameView {
 
         // Reset unused cells (where snake previously was)
         if (previousDrawnSnake != null) {
-            // System.out.println("Previous drawn snake: " + previousDrawnSnake);
             for (Coordinate coordinate : unusedCells(previousDrawnSnake, game.getSnake())) {
                 if ((coordinate.getX() + coordinate.getY()) % 2 != 0) {
                     context.setFill(backgroundColorLight);

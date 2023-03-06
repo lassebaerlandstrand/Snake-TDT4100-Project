@@ -55,41 +55,25 @@ public class FXMLController implements Controller {
         switch (key.getCode()) {
             case W:
             case UP:
-                // if (game.getSnake().getCurrentFrameDirection()[1] == -1 && game.getSnake().getLength() > 1) // Cannot reverse back into itself
-                //     break;
-                // game.getSnake().setNextFrameDirection(new int[] { 0, 1 });
-                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[1] == -1
-                        && game.getSnake().getLength() > 1)
+                if (game.getSnake().getLastDirectionPeek()[1] == -1 && game.getSnake().getLength() > 1)
                     break;
                 game.getSnake().addDirection(new int[] { 0, 1 });
                 break;
             case S:
             case DOWN:
-                // if (game.getSnake().getCurrentFrameDirection()[1] == 1 && game.getSnake().getLength() > 1)
-                //     break;
-                // game.getSnake().setNextFrameDirection(new int[] { 0, -1 });
-                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[1] == 1
-                        && game.getSnake().getLength() > 1)
+                if (game.getSnake().getLastDirectionPeek()[1] == 1 && game.getSnake().getLength() > 1)
                     break;
                 game.getSnake().addDirection(new int[] { 0, -1 });
                 break;
             case A:
             case LEFT:
-                // if (game.getSnake().getCurrentFrameDirection()[0] == 1 && game.getSnake().getLength() > 1)
-                //     break;
-                // game.getSnake().setNextFrameDirection(new int[] { -1, 0 });
-                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[0] == 1
-                        && game.getSnake().getLength() > 1)
+                if (game.getSnake().getLastDirectionPeek()[0] == 1 && game.getSnake().getLength() > 1)
                     break;
                 game.getSnake().addDirection(new int[] { -1, 0 });
                 break;
             case D:
             case RIGHT:
-                // if (game.getSnake().getCurrentFrameDirection()[0] == -1 && game.getSnake().getLength() > 1)
-                //     break;
-                // game.getSnake().setNextFrameDirection(new int[] { 1, 0 });
-                if (game.getSnake().getDirectionSize() > 0 && game.getSnake().getLastDirectionPeek()[0] == -1
-                        && game.getSnake().getLength() > 1)
+                if (game.getSnake().getLastDirectionPeek()[0] == -1 && game.getSnake().getLength() > 1)
                     break;
                 game.getSnake().addDirection(new int[] { 1, 0 });
                 break;
