@@ -48,6 +48,7 @@ public class FXMLController implements Controller {
         canvas.requestFocus();
         gameView.drawBackground(canvas, game);
         gameView.drawFrame(canvas, game);
+        setScoreText(game.getScore());
         setHighscoreText(new Highscore("highscore.txt").getHighScore());
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -56,6 +57,10 @@ public class FXMLController implements Controller {
 
     @FXML
     private void keyListener(KeyEvent key) {
+        if (game.getGameOver()) {
+            restartGame();
+            return;
+        }
         switch (key.getCode()) {
             case W:
             case UP:
@@ -98,6 +103,14 @@ public class FXMLController implements Controller {
     @FXML
     private void switchToHighscore() throws IOException {
         App.setRoot("Highscore");
+    }
+
+    private void restartGame() {
+        game = new Game(this);
+        this.gameView = new GameView();
+        gameView.drawBackground(canvas, game);
+        gameView.drawFrame(canvas, game);
+        setScoreText(game.getScore());
     }
 
 }

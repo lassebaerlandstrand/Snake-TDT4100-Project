@@ -19,9 +19,9 @@ public class Highscore {
     private File file;
 
     public Highscore(String fileName) {
-        Path currentDir = Paths.get("").toAbsolutePath();
-        String projectPath = "/src/main/java/Snake/Data";
-        file = new File(currentDir.toAbsolutePath().toString() + projectPath + "/" + fileName);
+        Path projectPath = Paths.get("").toAbsolutePath();
+        String dataPath = "/src/main/java/Snake/Data";
+        file = new File(projectPath.toAbsolutePath().toString() + dataPath + "/" + fileName);
         // try {
         //     //file = new File(getClass().getResource(fileName).toURI());
         //     file = new File(currentDir.toAbsolutePath().toString() + projectPath + "/" + fileName);

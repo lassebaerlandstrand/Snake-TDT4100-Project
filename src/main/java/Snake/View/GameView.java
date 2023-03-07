@@ -1,5 +1,9 @@
 package Snake.View;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +18,9 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 // View
 public class GameView {
@@ -31,7 +37,33 @@ public class GameView {
     private Snake previousDrawnSnake;
     private Food previousApple;
 
-    private void drawGameOver() {
+    private Image gameOverImage;
+
+    private Image getImage() {
+        try {
+            Path projectPath = Paths.get("").toAbsolutePath();
+            FileInputStream input;
+            input = new FileInputStream(
+                    projectPath.toString() + "/src/main/resources/Snake/img/gameOver.png");
+            return (new Image(input));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        return null;
+    }
+
+    private void drawGameOver(GraphicsContext context, Canvas canvas, Game game) {
+        context.drawImage(gameOverImage, (canvas.getWidth() - gameOverImage.getWidth()) / 2,
+                (canvas.getHeight() - gameOverImage.getHeight()) / 2, gameOverImage.getWidth(),
+                gameOverImage.getHeight());
+
+        context.setFont(new Font("Leelawadee UI Bold", 40));
+        context.setFill(Color.WHITE);
+        context.fillText(String.valueOf(game.getScore()), (canvas.getWidth() - gameOverImage.getWidth()) / 2 + 125,
+                (canvas.getHeight() - gameOverImage.getHeight()) / 2 + 115);
+        context.fillText(String.valueOf(game.getHighScore()),
+                (canvas.getWidth() - gameOverImage.getWidth()) / 2 + 290,
+                (canvas.getHeight() - gameOverImage.getHeight()) / 2 + 115);
 
     }
 
@@ -125,12 +157,15 @@ public class GameView {
     public void drawFrame(Canvas canvas, Game game) {
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        context.setStroke(Color.WHITE);
-        context.setLineWidth(cellBorderWidth);
-        drawGame(context, canvas, game);
-
         if (game.getGameOver()) {
-            drawGameOver();
+            if (gameOverImage == null) {
+                gameOverImage = getImage();
+                drawGameOver(context, canvas, game);
+            }
+        } else {
+            context.setStroke(Color.WHITE);
+            context.setLineWidth(cellBorderWidth);
+            drawGame(context, canvas, game);
         }
     }
 

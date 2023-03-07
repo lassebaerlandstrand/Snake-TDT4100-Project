@@ -100,4 +100,8 @@ public class Game {
         return allPositionsCopy;
     }
 
+    public int getHighScore() {
+        return highscore.getHighScore();
+    }
+
 }
