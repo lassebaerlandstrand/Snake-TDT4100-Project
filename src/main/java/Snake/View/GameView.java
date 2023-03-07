@@ -169,6 +169,15 @@ public class GameView {
         }
     }
 
+    // Called on restart
+    public void resetView(Canvas canvas, Game game) {
+        previousDrawnSnake = null;
+        previousApple = null;
+        gameOverImage = null;
+        drawBackground(canvas, game);
+        drawFrame(canvas, game);
+    }
+
     // Redraw entire canvas
     public void drawCoroutine(Canvas canvas, Game game) {
 

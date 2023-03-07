@@ -46,8 +46,7 @@ public class FXMLController implements Controller {
     @FXML
     protected void initialize() {
         canvas.requestFocus();
-        gameView.drawBackground(canvas, game);
-        gameView.drawFrame(canvas, game);
+        gameView.resetView(canvas, game);
         setScoreText(game.getScore());
         setHighscoreText(new Highscore("highscore.txt").getHighScore());
 
@@ -107,9 +106,7 @@ public class FXMLController implements Controller {
 
     private void restartGame() {
         game = new Game(this);
-        this.gameView = new GameView();
-        gameView.drawBackground(canvas, game);
-        gameView.drawFrame(canvas, game);
+        gameView.resetView(canvas, game);
         setScoreText(game.getScore());
     }
 
