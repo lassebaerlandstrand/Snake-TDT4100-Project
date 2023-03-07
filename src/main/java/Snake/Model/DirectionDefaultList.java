@@ -1,16 +1,14 @@
 package Snake.Model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import Snake.Utils.QueueList;
+import Snake.Utils.DefaultList;
 
 // QueueList with the specified type int[], this allows us to compare elements in the array
-public class DirectionQueueList extends QueueList<int[]> {
+public class DirectionDefaultList extends DefaultList<int[]> {
 
-    public DirectionQueueList(List<int[]> list) {
-        super(new ArrayList<int[]>(list));
+    public DirectionDefaultList(int[] defaultValue) {
+        super(defaultValue);
     }
 
     @Override

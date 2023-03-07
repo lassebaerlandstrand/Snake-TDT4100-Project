@@ -11,8 +11,7 @@ import javafx.scene.paint.Color;
 public class Snake {
 
     List<SnakeCell> snakeCells;
-    private DirectionQueueList directionQueue = new DirectionQueueList(
-            Arrays.asList(new int[] { 0, 0 }));
+    private DirectionDefaultList directionQueue = new DirectionDefaultList(new int[] { 0, 0 });
 
     private Color headColor = Color.web("#008000");
     private Color bodyColor = Color.web("#07bc07");

@@ -1,6 +1,6 @@
 package Snake.Model;
 
-public class Coordinate implements CoordinateInterface {
+public class Coordinate {
 
     private int x;
     private int y;
@@ -10,7 +10,6 @@ public class Coordinate implements CoordinateInterface {
         this.y = y;
     }
 
-    @Override
     public int getX() {
         return this.x;
     }
@@ -19,7 +18,6 @@ public class Coordinate implements CoordinateInterface {
         this.x = x;
     }
 
-    @Override
     public int getY() {
         return this.y;
     }
