@@ -94,7 +94,7 @@ public class FXMLController implements Controller {
 
     @Override
     public void setHighscoreText(int score) {
-        if (Integer.parseInt(highscoreText.getText()) < score)
+        if (score > Integer.parseInt(highscoreText.getText()))
             highscoreText.setText(String.valueOf(score));
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import Snake.Controller.Controller;
+import Snake.Data.Highscore;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
 
@@ -17,6 +18,7 @@ public class Game {
     private Food food;
     private boolean paused = false;
     private Controller controller;
+    private Highscore highscore;
 
     // Save a copy of allPositions to avoid creating a new list every time
     private List<Coordinate> allPositions;
@@ -26,6 +28,10 @@ public class Game {
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
         this.controller = controller;
+        highscore = new Highscore("highscore.txt");
+
+        int a = highscore.getHighScore();
+        //controller.setHighscoreText(a);
 
         allPositions = new ArrayList<Coordinate>();
         for (int x = 0; x < Constants.COLUMNCOUNT; x++) {
