@@ -4,7 +4,7 @@ import javafx.util.Duration;
 
 public class Constants {
 
-    public static final int FRAMERATE = 12;
+    public static final int FRAMERATE = 10;
     public static final Duration FRAMETIME = Duration.millis(1 / ((double) FRAMERATE) * 1000);
 
     public static final int ROWCOUNT = 25;

@@ -30,9 +30,6 @@ public class Game {
         this.controller = controller;
         highscore = new Highscore("highscore.txt");
 
-        int a = highscore.getHighScore();
-        //controller.setHighscoreText(a);
-
         allPositions = new ArrayList<Coordinate>();
         for (int x = 0; x < Constants.COLUMNCOUNT; x++) {
             for (int y = 0; y < Constants.ROWCOUNT; y++) {
@@ -78,9 +75,9 @@ public class Game {
                 food = new Food(getRandomAvailablePosition());
             }
             snake.move(ateFood);
-            // snake.setCurrentFrameDirection(snake.getNextFrameDirection());
         } else {
             gameOver = true;
+            highscore.addScore(score);
             System.out.println("DEAD");
             snake.setHeadColor(Color.web("#ff0000"));
             snake.setBodyColor(Color.web("#fb5d39"));
@@ -101,7 +98,6 @@ public class Game {
 
         allPositionsCopy.removeAll(snakeCoordinates);
         return allPositionsCopy;
-
     }
 
 }

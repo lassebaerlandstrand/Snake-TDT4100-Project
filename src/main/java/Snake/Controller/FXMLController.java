@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import Snake.Data.Highscore;
 import Snake.Model.Game;
 import Snake.Utils.Constants;
 import Snake.View.GameView;
@@ -45,6 +46,7 @@ public class FXMLController implements Controller {
         canvas.requestFocus();
         gameView.drawBackground(canvas, game);
         gameView.drawFrame(canvas, game);
+        setHighscoreText(new Highscore("highscore.txt").getHighScore());
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(frameUpdate, 0, (long) Constants.FRAMETIME.toMillis(), TimeUnit.MILLISECONDS);
