@@ -48,7 +48,7 @@
             </Text>
             <HBox alignment="CENTER_RIGHT" prefWidth="400.0">
                <children>
-                  <Button id="highScoreButton" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#handleHighScoreButton" stylesheets="@style.css" text="Highscore" textFill="WHITE">
+                  <Button id="highScoreButton" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#switchToHighscore" stylesheets="@style.css" text="Highscore" textFill="WHITE">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

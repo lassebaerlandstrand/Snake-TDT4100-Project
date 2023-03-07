@@ -1,9 +1,11 @@
 package Snake.Controller;
 
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import Snake.App;
 import Snake.Data.Highscore;
 import Snake.Model.Game;
 import Snake.Utils.Constants;
@@ -84,20 +86,18 @@ public class FXMLController implements Controller {
         }
     }
 
-    @FXML
-    private void handleHighScoreButton() {
-        System.out.println("High Score Button Pressed");
-    }
-
-    @Override
     public void setScoreText(int score) {
         scoreText.setText(String.valueOf(score));
     }
 
-    @Override
     public void setHighscoreText(int score) {
         if (score > Integer.parseInt(highscoreText.getText()))
             highscoreText.setText(String.valueOf(score));
+    }
+
+    @FXML
+    private void switchToHighscore() throws IOException {
+        App.setRoot("Highscore");
     }
 
 }

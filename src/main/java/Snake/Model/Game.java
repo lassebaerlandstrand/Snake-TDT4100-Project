@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Snake.Controller.Controller;
+import Snake.Controller.FXMLController;
 import Snake.Data.Highscore;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
@@ -17,13 +17,13 @@ public class Game {
     private boolean gameOver;
     private Food food;
     private boolean paused = false;
-    private Controller controller;
+    private FXMLController controller;
     private Highscore highscore;
 
     // Save a copy of allPositions to avoid creating a new list every time
     private List<Coordinate> allPositions;
 
-    public Game(Controller controller) {
+    public Game(FXMLController controller) {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
