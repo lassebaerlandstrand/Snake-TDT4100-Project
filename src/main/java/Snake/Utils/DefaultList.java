@@ -23,7 +23,6 @@ public class DefaultList<T> extends ArrayList<T> {
         return this.size() > 0 ? this.get(this.size() - 1) : defaultValue;
     }
 
-    // Only removes if there is more than one element in list
     public T getRemoveFirst() {
         T item = peek();
         if (this.size() > 0)

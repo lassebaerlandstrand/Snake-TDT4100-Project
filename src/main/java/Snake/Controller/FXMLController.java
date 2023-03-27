@@ -109,8 +109,7 @@ public class FXMLController implements ControllerListener {
 
     @Override
     public void setHighscoreText(int score) {
-        if (score > Integer.parseInt(highscoreText.getText()))
-            highscoreText.setText(String.valueOf(score));
+        highscoreText.setText(String.valueOf(score));
     }
 
     @FXML
@@ -120,6 +119,7 @@ public class FXMLController implements ControllerListener {
 
     @Override
     public void setGameOver() {
+        gameView.forceDrawFrame(canvas, game);
         gameOverPane.setVisible(true);
         gameOverScore.setText(scoreText.getText());
         gameOverHighscore.setText(highscoreText.getText());

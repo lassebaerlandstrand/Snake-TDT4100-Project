@@ -108,7 +108,6 @@ public class Snake {
         return true;
     }
 
-    // Returns true if apple is eaten
     public void move(boolean grow) {
         SnakeCell headCell = getHead();
         Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());

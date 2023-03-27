@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import Snake.Controller.ControllerListener;
-import Snake.Controller.FXMLController;
 import Snake.Data.Highscore;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
@@ -24,11 +23,10 @@ public class Game {
     // Save a copy of allPositions to avoid creating a new list every time
     private List<Coordinate> allPositions;
 
-    public Game(FXMLController controller) {
+    public Game() {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
-        this.controller = controller;
         highscore = new Highscore("highscore.txt");
 
         allPositions = new ArrayList<Coordinate>();
@@ -39,6 +37,11 @@ public class Game {
         }
 
         food = new Food(getRandomAvailablePosition());
+    }
+
+    public Game(ControllerListener controller) {
+        this();
+        this.controller = controller;
     }
 
     public Snake getSnake() {
@@ -61,8 +64,11 @@ public class Game {
         this.score++;
 
         // Observable
-        controller.setScoreText(score);
-        controller.setHighscoreText(score);
+        if (controller != null) {
+            controller.setScoreText(score);
+            if (score >= highscore.getHighScore())
+                controller.setHighscoreText(score);
+        }
     }
 
     public void update() {
@@ -79,10 +85,10 @@ public class Game {
         } else {
             gameOver = true;
             highscore.addScore(score);
-            controller.setGameOver();
-            System.out.println("DEAD");
             snake.setHeadColor(Color.web("#ff0000"));
             snake.setBodyColor(Color.web("#fb5d39"));
+            if (controller != null)
+                controller.setGameOver();
         }
     }
 
@@ -103,7 +109,7 @@ public class Game {
     }
 
     public int getHighScore() {
-        return highscore.getHighScore();
+        return Math.max(score, highscore.getHighScore());
     }
 
 }

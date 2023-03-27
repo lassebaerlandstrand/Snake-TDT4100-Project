@@ -112,13 +112,17 @@ public class GameView {
     }
 
     public void drawFrame(Canvas canvas, Game game) {
-        GraphicsContext context = canvas.getGraphicsContext2D();
-
         if (!game.getGameOver()) {
-            context.setStroke(Color.WHITE);
-            context.setLineWidth(cellBorderWidth);
-            drawGame(context, canvas, game);
+            forceDrawFrame(canvas, game);
         }
+    }
+
+    // One use case is to draw after game has ended, this is done once
+    public void forceDrawFrame(Canvas canvas, Game game) {
+        GraphicsContext context = canvas.getGraphicsContext2D();
+        context.setStroke(Color.WHITE);
+        context.setLineWidth(cellBorderWidth);
+        drawGame(context, canvas, game);
     }
 
     public void drawInitial(Canvas canvas, Game game) {
