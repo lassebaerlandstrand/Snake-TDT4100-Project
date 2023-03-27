@@ -123,4 +123,13 @@ public class GameView {
             drawGame(context, canvas, game);
         }
     }
+
+    // Called on restart
+    public void resetView(Canvas canvas, Game game) {
+        previousDrawnSnake = null;
+        previousApple = null;
+        gameOverImage = null;
+        drawBackground(canvas, game);
+        drawFrame(canvas, game);
+    }
 }

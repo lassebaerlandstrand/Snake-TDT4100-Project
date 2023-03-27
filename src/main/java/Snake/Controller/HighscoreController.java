@@ -21,6 +21,7 @@ public class HighscoreController {
     @FXML
     private ListView<ListCell> listView;
 
+    // This is a custom cell for the ListView, this enables us to left align time and right align score
     public static class ListCell extends HBox {
         Label label1 = new Label();
         Label label2 = new Label();
@@ -31,7 +32,6 @@ public class HighscoreController {
             this.label2.setText(label2);
             this.label1.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(this.label1, Priority.ALWAYS);
-            // this.label1.setStyle("-fx-text-fill: white;");
 
             this.getChildren().addAll(this.label1, this.label2);
         }
