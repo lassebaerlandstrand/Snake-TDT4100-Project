@@ -1,9 +1,5 @@
 package Snake.View;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,19 +9,13 @@ import Snake.Model.Game;
 import Snake.Model.Snake;
 import Snake.Model.SnakeCell;
 import Snake.Utils.Constants;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 // View
 public class GameView {
 
-    private Timeline timeline;
     private double lineWidth = 0d; // Lines between grid cells
     private double cellBorderWidth = 1d; // Border around grid cells
     private int borderWidth = (800 - (Constants.COLUMNCOUNT * Constants.CELLSIZE)) / 2;
@@ -36,36 +26,6 @@ public class GameView {
     // Used for optimizing draw function, to only draw the changed cells, not redraw the whole grid
     private Snake previousDrawnSnake;
     private Food previousApple;
-
-    private Image gameOverImage;
-
-    private Image getImage() {
-        try {
-            Path projectPath = Paths.get("").toAbsolutePath();
-            FileInputStream input;
-            input = new FileInputStream(
-                    projectPath.toString() + "/src/main/resources/Snake/img/gameOver.png");
-            return (new Image(input));
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
-        return null;
-    }
-
-    private void drawGameOver(GraphicsContext context, Canvas canvas, Game game) {
-        context.drawImage(gameOverImage, (canvas.getWidth() - gameOverImage.getWidth()) / 2,
-                (canvas.getHeight() - gameOverImage.getHeight()) / 2, gameOverImage.getWidth(),
-                gameOverImage.getHeight());
-
-        context.setFont(new Font("Leelawadee UI Bold", 40));
-        context.setFill(Color.WHITE);
-        context.fillText(String.valueOf(game.getScore()), (canvas.getWidth() - gameOverImage.getWidth()) / 2 + 125,
-                (canvas.getHeight() - gameOverImage.getHeight()) / 2 + 115);
-        context.fillText(String.valueOf(game.getHighScore()),
-                (canvas.getWidth() - gameOverImage.getWidth()) / 2 + 290,
-                (canvas.getHeight() - gameOverImage.getHeight()) / 2 + 115);
-
-    }
 
     public void drawBackground(Canvas canvas, Game game) {
         GraphicsContext context = canvas.getGraphicsContext2D();
@@ -157,27 +117,10 @@ public class GameView {
     public void drawFrame(Canvas canvas, Game game) {
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        if (game.getGameOver()) {
-            if (gameOverImage == null) {
-                gameOverImage = getImage();
-                drawGameOver(context, canvas, game);
-            }
-        } else {
+        if (!game.getGameOver()) {
             context.setStroke(Color.WHITE);
             context.setLineWidth(cellBorderWidth);
             drawGame(context, canvas, game);
         }
-    }
-
-    // Redraw entire canvas
-    public void drawCoroutine(Canvas canvas, Game game) {
-
-        timeline = new Timeline(new KeyFrame(Constants.FRAMETIME, (ActionEvent event) -> {
-            GraphicsContext context = canvas.getGraphicsContext2D();
-            drawGame(context, canvas, game);
-        }));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 }

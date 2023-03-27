@@ -16,7 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-public class HighscoreController implements Controller {
+public class HighscoreController {
 
     @FXML
     private ListView<ListCell> listView;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import Snake.Controller.ControllerListener;
 import Snake.Controller.FXMLController;
 import Snake.Data.Highscore;
 import Snake.Utils.Constants;
@@ -17,7 +18,7 @@ public class Game {
     private boolean gameOver;
     private Food food;
     private boolean paused = false;
-    private FXMLController controller;
+    private ControllerListener controller;
     private Highscore highscore;
 
     // Save a copy of allPositions to avoid creating a new list every time
@@ -78,6 +79,7 @@ public class Game {
         } else {
             gameOver = true;
             highscore.addScore(score);
+            controller.setGameOver();
             System.out.println("DEAD");
             snake.setHeadColor(Color.web("#ff0000"));
             snake.setBodyColor(Color.web("#fb5d39"));
