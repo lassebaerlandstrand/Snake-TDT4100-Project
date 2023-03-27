@@ -85,11 +85,8 @@ public class GameView {
         // Reset unused cells (where snake previously was)
         if (previousDrawnSnake != null) {
             for (Coordinate coordinate : unusedCells(previousDrawnSnake, game.getSnake())) {
-                if ((coordinate.getX() + coordinate.getY()) % 2 != 0) {
-                    context.setFill(backgroundColorLight);
-                } else {
-                    context.setFill(backgroundColorDark);
-                }
+                context.setFill(
+                        (coordinate.getX() + coordinate.getY()) % 2 == 0 ? backgroundColorDark : backgroundColorLight);
                 context.fillRect(coordinate.getX() * Constants.CELLSIZE + borderWidth,
                         (Constants.ROWCOUNT - 1 - coordinate.getY()) * Constants.CELLSIZE + borderWidth,
                         Constants.CELLSIZE, Constants.CELLSIZE);
@@ -124,12 +121,33 @@ public class GameView {
         }
     }
 
-    // Called on restart
-    public void resetView(Canvas canvas, Game game) {
-        previousDrawnSnake = null;
-        previousApple = null;
-        gameOverImage = null;
+    public void drawInitial(Canvas canvas, Game game) {
         drawBackground(canvas, game);
         drawFrame(canvas, game);
+    }
+
+    // Draw over the previous game's snake and apple
+    public void resetView(Canvas canvas, Game game) {
+        GraphicsContext context = canvas.getGraphicsContext2D();
+
+        // Snake
+        List<SnakeCell> snakeCells = game.getSnake().getSnakeCells();
+        for (SnakeCell snakeCell : snakeCells) {
+            context.setFill(
+                    (snakeCell.getX() + snakeCell.getY()) % 2 == 0 ? backgroundColorDark : backgroundColorLight);
+            context.fillRect(snakeCell.getX() * Constants.CELLSIZE + borderWidth,
+                    (Constants.ROWCOUNT - 1 - snakeCell.getY()) * Constants.CELLSIZE + borderWidth,
+                    Constants.CELLSIZE, Constants.CELLSIZE);
+        }
+
+        // Apple
+        context.setFill(
+                (game.getFood().getX() + game.getFood().getY()) % 2 == 0 ? backgroundColorDark : backgroundColorLight);
+        context.fillRect(game.getFood().getX() * Constants.CELLSIZE + borderWidth,
+                (Constants.ROWCOUNT - 1 - game.getFood().getY()) * Constants.CELLSIZE + borderWidth,
+                Constants.CELLSIZE, Constants.CELLSIZE);
+
+        previousDrawnSnake = null;
+        previousApple = null;
     }
 }
