@@ -13,17 +13,17 @@
 
 .list-view .list-cell .label {
     -fx-text-fill: white;
-    -fx-font-family: "Consolas";
+    -fx-font-family: "Roboto";
 }
 
 .list-view .list-cell:even {
-    -fx-background-color: rgb(0, 70, 24);
+    -fx-background-color: #3b6f25;
     -fx-text-fill: yellow;
     -fx-font-color: white;
     -fx-font-size: 30px;
 }
 .list-view .list-cell:odd {
-    -fx-background-color: rgb(0, 82, 24);
+    -fx-background-color: #407a29;
     -fx-text-fill: blue;
     -fx-font-color: white;
     -fx-font-size: 30px;

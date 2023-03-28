@@ -3,6 +3,7 @@ package Snake.Model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import Snake.Controller.ControllerListener;
 import Snake.Data.Highscore;
@@ -21,21 +22,15 @@ public class Game {
     private Highscore highscore;
 
     // Save a copy of allPositions to avoid creating a new list every time
-    private List<Coordinate> allPositions;
+    private List<Coordinate> allPositions = IntStream.range(0, Constants.COLUMNCOUNT)
+            .mapToObj(x -> IntStream.range(0, Constants.ROWCOUNT).mapToObj(y -> new Coordinate(x, y)))
+            .flatMap(x -> x).collect(Collectors.toList());
 
     public Game() {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
         highscore = new Highscore("highscore.txt");
-
-        allPositions = new ArrayList<Coordinate>();
-        for (int x = 0; x < Constants.COLUMNCOUNT; x++) {
-            for (int y = 0; y < Constants.ROWCOUNT; y++) {
-                allPositions.add(new Coordinate(x, y));
-            }
-        }
-
         food = new Food(getRandomAvailablePosition());
     }
 

@@ -17,6 +17,9 @@ public class Snake {
     private Color bodyColor = Color.web("#07bc07");
 
     public Snake(int startX, int startY) {
+        if (startX < 0 || startX >= Constants.COLUMNCOUNT || startY < 0 || startY >= Constants.ROWCOUNT)
+            throw new IllegalArgumentException("Start position must be within the grid");
+
         this.snakeCells = new ArrayList<SnakeCell>();
         SnakeCell headCell = new SnakeCell(startX, startY, headColor);
         snakeCells.add(headCell);
@@ -42,14 +45,6 @@ public class Snake {
     public int getDirectionSize() {
         return directionQueue.size();
     }
-
-    /* private String printDirection() {
-        StringBuilder sb = new StringBuilder();
-        for (int[] direction : directionQueue) {
-            sb.append("[" + direction[0] + ", " + direction[1] + "]");
-        }
-        return sb.toString();
-    } */
 
     public void addDirection(int[] direction) throws IllegalArgumentException {
         if (direction.length != 2)
@@ -109,6 +104,10 @@ public class Snake {
     }
 
     public void move(boolean grow) {
+        if (!nextMoveValid()) {
+            throw new IllegalStateException("Cannot move snake to invalid position");
+        }
+
         SnakeCell headCell = getHead();
         Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());
         Coordinate nextPos = nextPosition();
