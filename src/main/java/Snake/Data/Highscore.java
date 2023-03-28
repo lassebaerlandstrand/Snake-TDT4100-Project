@@ -28,6 +28,10 @@ public class Highscore {
         // } 
     }
 
+    public File getFile() {
+        return file;
+    }
+
     public List<HighscoreObject> readAllScores() {
         try (FileReader fileReader = new FileReader(file)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -50,12 +54,7 @@ public class Highscore {
     public void addScore(int score) {
         try (FileWriter fileWriter = new FileWriter(file, true)) { // True = append
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            //bufferedWriter.write(score + "\n");
             HighscoreObject highscoreObject = new HighscoreObject(LocalDateTime.now(), score);
-            // HashMap<String, Object> details = new HashMap<String, Object>();
-            // details.put("score", highscoreObject.getScore());
-            // details.put("time", highscoreObject.getDate().toString());
-            // JSONObject jsonObject = new JSONObject(details);
             bufferedWriter.write(highscoreObject.getTime() + "," + highscoreObject.getScore() + "\n");
             bufferedWriter.flush();
             bufferedWriter.close();
