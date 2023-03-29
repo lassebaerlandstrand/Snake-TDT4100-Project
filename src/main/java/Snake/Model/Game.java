@@ -87,6 +87,14 @@ public class Game {
         }
     }
 
+    public boolean getPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     public Coordinate getRandomAvailablePosition() {
         List<Coordinate> availablePositions = getAvailablePositions();
         int randomIndex = (int) Math.floor(Math.random() * availablePositions.size());

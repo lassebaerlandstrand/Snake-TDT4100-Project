@@ -14,6 +14,7 @@ import Snake.Utils.Constants;
 import Snake.View.GameView;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -67,12 +68,18 @@ public class FXMLController implements ControllerListener {
 
     @FXML
     private void keyListener(KeyEvent key) {
+        if (key.getCode() == KeyCode.SPACE) {
+            game.setPaused(!game.getPaused());
+            return;
+        }
+
         if (game.getGameOver() || game instanceof GameAI) {
             // Cooldown for when to restart game, this is because one could press a key right after death, and consequently skip game over screen
             if (getTimeBetweenGameOver() > 800)
                 restartGame();
             return;
         }
+
         switch (key.getCode()) {
             case W:
             case UP:

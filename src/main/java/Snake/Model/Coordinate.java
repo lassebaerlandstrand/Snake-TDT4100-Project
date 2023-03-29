@@ -1,6 +1,6 @@
 package Snake.Model;
 
-public class Coordinate {
+public class Coordinate implements Comparable<Coordinate> {
 
     private int x;
     private int y;
@@ -46,6 +46,14 @@ public class Coordinate {
     // Used when comparing distances which both uses this method, where the only thing that matters is if one is larger than the other. This does not give the actual distance, but gives a method for comparing distances.
     public static int distanceFast(Coordinate a, Coordinate b) {
         return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+    }
+
+    @Override
+    public int compareTo(Coordinate arg0) {
+        if (this.x == arg0.getX()) {
+            return this.y - arg0.getY();
+        }
+        return this.x - arg0.getX();
     }
 
 }
