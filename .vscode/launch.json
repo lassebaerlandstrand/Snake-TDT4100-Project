@@ -16,13 +16,6 @@
             "request": "launch",
             "mainClass": "TDT4100_project/Snake.App",
             "projectName": "tdt4100_v2023_prosjekt_boilerplate"
-        },
-        {
-            "type": "java",
-            "name": "ExampleProjectApp",
-            "request": "launch",
-            "mainClass": "TDT4100_project/exampleproject.ExampleProjectApp",
-            "projectName": "tdt4100_v2023_prosjekt_boilerplate"
         }
     ]
 }

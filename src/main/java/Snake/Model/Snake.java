@@ -28,6 +28,7 @@ public class Snake {
     // Deep copy snake
     public Snake(Snake snake) {
         this.snakeCells = snake.getSnakeCells().stream().map(cell -> new SnakeCell(cell)).collect(Collectors.toList());
+        this.directionQueue = new DirectionDefaultList(snake.getDirectionPeek()); // Not excatly a deep copy, but sufficient for this use case
     }
 
     public int[] getDirectionPeek() {
@@ -103,11 +104,28 @@ public class Snake {
         return true;
     }
 
+    public boolean nextMoveValid(int[] direction) {
+        if (Arrays.equals(direction, new int[] { 0, 0 }))
+            return true;
+        Coordinate nextPos = new Coordinate(getHead().getX() + direction[0], getHead().getY() + direction[1]);
+
+        // Hit wall
+        if (nextPos.getX() < 0 || nextPos.getX() >= Constants.COLUMNCOUNT || nextPos.getY() < 0
+                || nextPos.getY() >= Constants.ROWCOUNT) {
+            return false;
+        }
+        // Hit self
+        if (snakeCells.stream().anyMatch(cell -> cell.getX() == nextPos.getX() && cell.getY() == nextPos.getY())) {
+            return false;
+        }
+
+        return true;
+    }
+
     public void move(boolean grow) {
         if (!nextMoveValid()) {
             throw new IllegalStateException("Cannot move snake to invalid position");
         }
-
         SnakeCell headCell = getHead();
         Coordinate headPos = new Coordinate(headCell.getX(), headCell.getY());
         Coordinate nextPos = nextPosition();

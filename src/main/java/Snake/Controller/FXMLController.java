@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import Snake.App;
 import Snake.Data.Highscore;
 import Snake.Model.Game;
+import Snake.Model.SnakeAI.GameAI;
 import Snake.Utils.Constants;
 import Snake.View.GameView;
 import javafx.fxml.FXML;
@@ -41,7 +42,7 @@ public class FXMLController implements ControllerListener {
     private Text gameOverHighscore;
 
     public FXMLController() {
-        this.game = new Game(this);
+        this.game = new GameAI(this);
         this.gameView = new GameView();
     }
 
@@ -66,7 +67,7 @@ public class FXMLController implements ControllerListener {
 
     @FXML
     private void keyListener(KeyEvent key) {
-        if (game.getGameOver()) {
+        if (game.getGameOver() || game instanceof GameAI) {
             // Cooldown for when to restart game, this is because one could press a key right after death, and consequently skip game over screen
             if (getTimeBetweenGameOver() > 800)
                 restartGame();
