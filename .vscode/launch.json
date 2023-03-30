@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "GameAI",
-            "request": "launch",
-            "mainClass": "TDT4100_project/Snake.Model.SnakeAI.GameAI",
-            "projectName": "tdt4100_v2023_prosjekt_boilerplate"
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

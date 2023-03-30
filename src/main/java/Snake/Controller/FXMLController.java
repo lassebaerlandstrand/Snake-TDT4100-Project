@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import Snake.App;
 import Snake.Data.Highscore;
 import Snake.Model.Game;
-import Snake.Model.SnakeAI.GameAI;
+import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
 import Snake.View.GameView;
 import javafx.fxml.FXML;

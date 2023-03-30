@@ -53,6 +53,12 @@ public class Snake {
         directionQueue.add(direction);
     }
 
+    public void addDirection(List<int[]> directions) throws IllegalArgumentException {
+        for (int[] direction : directions) {
+            addDirection(direction);
+        }
+    }
+
     public List<SnakeCell> getSnakeCells() {
         return snakeCells;
     }

@@ -1,6 +1,6 @@
-package Snake.Model.SnakeAI;
+package Snake.Model.AI;
 
-public final class Direction {
+final class Direction {
     private int[] direction;
     private int availableArea;
     private int distance;
