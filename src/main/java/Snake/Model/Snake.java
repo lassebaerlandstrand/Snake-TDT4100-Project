@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 public class Snake {
 
     List<SnakeCell> snakeCells;
-    private DirectionDefaultList directionQueue = new DirectionDefaultList(new int[] { 0, 0 });
+    private DirectionDefaultList directionQueue = new DirectionDefaultList(new int[] { 0, 0 }, false);
 
     private Color headColor = Color.web("#008000");
     private Color bodyColor = Color.web("#07bc07");
@@ -25,10 +25,20 @@ public class Snake {
         snakeCells.add(headCell);
     }
 
+    public Snake(int startX, int startY, boolean allowDuplicates) {
+        this(startX, startY);
+        this.directionQueue = new DirectionDefaultList(new int[] { 0, 0 }, allowDuplicates);
+    }
+
     // Deep copy snake
     public Snake(Snake snake) {
         this.snakeCells = snake.getSnakeCells().stream().map(cell -> new SnakeCell(cell)).collect(Collectors.toList());
-        this.directionQueue = new DirectionDefaultList(snake.getDirectionPeek()); // Not excatly a deep copy, but sufficient for this use case
+        this.directionQueue = new DirectionDefaultList(snake.getDirectionPeek(), false); // Not excatly a deep copy, but sufficient for this use case
+    }
+
+    public Snake(Snake snake, boolean allowDuplicates) {
+        this.snakeCells = snake.getSnakeCells().stream().map(cell -> new SnakeCell(cell)).collect(Collectors.toList());
+        this.directionQueue = new DirectionDefaultList(snake.getDirectionPeek(), allowDuplicates);
     }
 
     public int[] getDirectionPeek() {

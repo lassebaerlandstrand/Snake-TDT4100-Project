@@ -34,8 +34,21 @@ public class Game {
         food = new Food(getRandomAvailablePosition());
     }
 
+    public Game(boolean allowDuplicatesInputs) {
+        this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
+                (int) Math.floor(Math.random() * Constants.ROWCOUNT), allowDuplicatesInputs);
+        this.score = 0;
+        highscore = new Highscore("highscore.txt");
+        food = new Food(getRandomAvailablePosition());
+    }
+
     public Game(ControllerListener controller) {
         this();
+        this.controller = controller;
+    }
+
+    public Game(ControllerListener controller, boolean allowDuplicatesInputs) {
+        this(allowDuplicatesInputs);
         this.controller = controller;
     }
 

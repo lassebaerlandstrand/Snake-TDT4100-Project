@@ -8,14 +8,14 @@ import Snake.Model.Game;
 
 public class GameAI extends Game {
 
-    private int movesAhead = 2;
+    private int movesAhead = 3;
 
     public GameAI() {
-        super();
+        super(true);
     }
 
     public GameAI(ControllerListener controller) {
-        super(controller);
+        super(controller, true);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class GameAI extends Game {
         if (getGameOver() || getPaused())
             return;
         if (getSnake().getDirectionSize() == 0) {
-            List<Direction> bestMove = SnakeAI.AINextMoveRecursion(getSnake(), movesAhead, getFood(), null);
+            List<Direction> bestMove = SnakeAI.AINextMove(getSnake(), movesAhead, getFood(), null);
             if (bestMove != null) {
                 getSnake().addDirection(
                         bestMove.stream().map(direction -> direction.getDirection()).collect(Collectors.toList()));
