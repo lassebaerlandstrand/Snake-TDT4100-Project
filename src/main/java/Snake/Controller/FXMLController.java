@@ -12,6 +12,7 @@ import Snake.Model.Game;
 import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
 import Snake.View.GameView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
@@ -47,12 +48,11 @@ public class FXMLController implements ControllerListener {
         this.gameView = new GameView();
     }
 
-    Runnable frameUpdate = new Runnable() {
-        @Override
-        public void run() {
+    Runnable frameUpdate = () -> {
+        Platform.runLater(() -> {
             game.update();
             gameView.drawFrame(canvas, game);
-        }
+        });
     };
 
     @FXML

@@ -40,99 +40,6 @@ public final class SnakeAI extends Snake {
                 .collect(Collectors.toList());
     }
 
-    // public static int[] AINextMove(Snake currentSnake, int movesAhead, Coordinate food) {
-    //     List<List<Direction>> directions = new ArrayList<>();
-    //     List<Direction> previousDirectionsCopy = new ArrayList<>();
-
-    //     List<int[]> validDirections = SnakeAI.getValidDirections(currentSnake);
-    //     for (int[] direction : validDirections) {
-    //         Snake snakeClone = new Snake(currentSnake);
-    //         snakeClone.addDirection(direction);
-    //         boolean ateFood = snakeClone.nextPositionPeek().equals(food);
-    //         snakeClone.move(ateFood);
-    //         int distance = Coordinate.distanceFast(snakeClone.getHead().getPos(), food);
-
-    //         if (movesAhead == 0) {
-    //             previousDirectionsCopy.add(new Direction(direction,
-    //                     currentSnake.getLength() == 1 ? Integer.MAX_VALUE : SnakeAI.wiseMove(snakeClone), distance,
-    //                     ateFood));
-    //         } else {
-    //             previousDirectionsCopy.add(new Direction(direction, Integer.MIN_VALUE, distance, ateFood));
-    //         }
-    //         directions.add(AINextMoveRecursion(currentSnake, movesAhead - 1, food, previousDirectionsCopy));
-    //     }
-
-    //     // TODO: Bug when snake spawn directly besides apple
-    //     Direction bestDirection = new Direction(null, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-    //     for (Direction direction : directions) {
-    //         if (direction.getFoodEaten() && direction.getAvailableArea() > currentSnake.getLength() + 1) {
-    //             bestDirection = direction;
-    //         } else if (direction.getAvailableArea() + (direction.getFoodEaten() ? 2 : 0) > bestDirection
-    //                 .getAvailableArea() + (bestDirection.getFoodEaten() ? 2 : 0)) {
-    //             bestDirection = direction;
-    //         } else if (direction.getAvailableArea() == bestDirection.getAvailableArea()) {
-    //             if (direction.getDistance() < bestDirection.getDistance()) {
-    //                 bestDirection = direction;
-    //             }
-    //         }
-    //     }
-
-    //     return bestDirection.getDirection();
-    // }
-
-    // public static List<Direction> AINextMoveRecursion(Snake currentSnake, int movesAhead, Coordinate food,
-    //         List<Direction> previousDirections) {
-    //     List<List<Direction>> directions = new ArrayList<>();
-    //     List<Direction> previousDirectionsCopy = previousDirections == null ? new ArrayList<>()
-    //             : new ArrayList<>(previousDirections);
-
-    //     List<int[]> validDirections = SnakeAI.getValidDirections(currentSnake);
-    //     for (int[] direction : validDirections) {
-    //         Snake snakeClone = new Snake(currentSnake);
-    //         snakeClone.addDirection(direction);
-    //         boolean ateFood = snakeClone.nextPositionPeek().equals(food);
-    //         snakeClone.move(ateFood);
-    //         int distance = Coordinate.distanceFast(snakeClone.getHead().getPos(), food);
-    //         if (movesAhead == 0) {
-    //             previousDirectionsCopy.add(new Direction(direction,
-    //                     currentSnake.getLength() == 1 ? Integer.MAX_VALUE : SnakeAI.wiseMove(snakeClone), distance,
-    //                     ateFood));
-    //             directions.add(previousDirectionsCopy);
-    //         } else {
-    //             previousDirectionsCopy.add(new Direction(direction, 0, distance, ateFood));
-    //             List<Direction> directionList = new ArrayList<>(
-    //                     SnakeAI.AINextMoveRecursion(snakeClone, movesAhead - 1, food,
-    //                             previousDirectionsCopy));
-    //             if (directionList != null)
-    //                 directions.add(directionList);
-    //         }
-    //     }
-
-    //     List<Direction> bestDirections = null;
-
-    //     for (List<Direction> direction : directions) {
-    //         if (bestDirections == null) {
-    //             bestDirections = new ArrayList<>(direction);
-    //             continue;
-    //         }
-    //         Direction lastDirection = direction.get(direction.size() - 1);
-    //         Direction lastBestDirection = bestDirections.get(bestDirections.size() - 1);
-
-    //         if (lastDirection.getFoodEaten() && lastDirection.getAvailableArea() > currentSnake.getLength() + 1) {
-    //             bestDirections = new ArrayList<>(direction);
-    //         } else if (lastDirection.getAvailableArea() + (lastDirection.getFoodEaten() ? 2 : 0) > lastBestDirection
-    //                 .getAvailableArea() + (lastBestDirection.getFoodEaten() ? 2 : 0)) {
-    //             bestDirections = new ArrayList<>(direction);
-    //         } else if (lastDirection.getAvailableArea() == lastBestDirection.getAvailableArea()) {
-    //             if (lastDirection.getDistance() < lastBestDirection.getDistance()) {
-    //                 bestDirections = new ArrayList<>(direction);
-    //             }
-    //         }
-    //     }
-
-    //     return bestDirections;
-    // }
-
     public static List<Direction> AINextMoveRecursion(Snake currentSnake, int movesAhead, Coordinate food,
             List<Direction> previousDirections) {
         List<List<Direction>> directions = new ArrayList<>();
@@ -147,14 +54,18 @@ public final class SnakeAI extends Snake {
             snakeClone.move(ateFood);
             int distance = Coordinate.distanceFast(snakeClone.getHead().getPos(), food);
 
-            if (movesAhead == 0) {
-                previousDirectionsCopy.add(new Direction(direction, SnakeAI.wiseMove(snakeClone), distance, ateFood));
+            if (movesAhead == 1) {
+                previousDirectionsCopy
+                        .add(new Direction(direction, availableArea(snakeClone), distance, ateFood));
+                directions.add(previousDirectionsCopy);
             } else {
-                previousDirectionsCopy.add(new Direction(direction, SnakeAI.wiseMove(snakeClone), distance, ateFood));
-                SnakeAI.AINextMoveRecursion(snakeClone, movesAhead - 1, food, previousDirections);
+                previousDirectionsCopy
+                        .add(new Direction(direction, 0, distance, ateFood));
+                List<Direction> directionList = AINextMoveRecursion(snakeClone, movesAhead - 1, food,
+                        previousDirectionsCopy);
+                if (directionList != null)
+                    directions.add(directionList);
             }
-
-            directions.add(previousDirectionsCopy);
         }
 
         List<Direction> bestDirections = null;
@@ -167,10 +78,10 @@ public final class SnakeAI extends Snake {
             Direction lastDirection = direction.get(direction.size() - 1);
             Direction lastBestDirection = bestDirections.get(bestDirections.size() - 1);
 
-            if (lastDirection.getFoodEaten() && lastDirection.getAvailableArea() > currentSnake.getLength() + 1) {
+            if (hasEatenFood(direction) && lastDirection.getAvailableArea() > currentSnake.getLength() + 1) {
                 bestDirections = new ArrayList<>(direction);
-            } else if (lastDirection.getAvailableArea() + (lastDirection.getFoodEaten() ? 2 : 0) > lastBestDirection
-                    .getAvailableArea() + (lastBestDirection.getFoodEaten() ? 2 : 0)) {
+            } else if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) > lastBestDirection
+                    .getAvailableArea() + (hasEatenFood(bestDirections) ? 2 : 0)) {
                 bestDirections = new ArrayList<>(direction);
             } else if (lastDirection.getAvailableArea() == lastBestDirection.getAvailableArea()) {
                 if (lastDirection.getDistance() < lastBestDirection.getDistance()) {
@@ -182,9 +93,13 @@ public final class SnakeAI extends Snake {
         return bestDirections;
     }
 
+    private static boolean hasEatenFood(List<Direction> directions) {
+        return directions.stream().anyMatch(direction -> direction.getFoodEaten());
+    }
+
     // This method checks if the snake is trapped, and if so, it tries to find the best direction to move in
     // Based on the available area for the snake to move in
-    private static int wiseMove(Snake snake) {
+    private static int availableArea(Snake snake) {
         // if (snake.getLength() < 7) {
         //     return Integer.MAX_VALUE;
         // }

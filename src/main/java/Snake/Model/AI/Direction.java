@@ -1,5 +1,8 @@
 package Snake.Model.AI;
 
+import java.util.Arrays;
+import java.util.Random;
+
 final class Direction {
     private int[] direction;
     private int availableArea;
@@ -27,5 +30,11 @@ final class Direction {
 
     public boolean getFoodEaten() {
         return foodEaten;
+    }
+
+    public static int[] getRandomDirection() {
+        int dirX = Arrays.asList(-1, 0, 1).get(new Random().nextInt(3));
+        int dirY = dirX != 0 ? 0 : Arrays.asList(-1, 1).get(new Random().nextInt(2));
+        return new int[] { dirX, dirY };
     }
 }
