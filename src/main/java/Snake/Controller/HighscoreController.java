@@ -16,6 +16,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+/**
+ * Controller class for the highscore view.
+ */
 public class HighscoreController {
 
     @FXML

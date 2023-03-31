@@ -13,7 +13,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-// View
+/**
+ * Handles all the drawing to the game canvas.
+ */
 public class GameView {
 
     private double lineWidth = 0d; // Lines between grid cells

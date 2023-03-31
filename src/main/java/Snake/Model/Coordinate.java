@@ -1,5 +1,9 @@
 package Snake.Model;
 
+/**
+ * This class is used to store x and y coordinates. It implements the Comparable interface, so that we can sort the coordinates.
+ * It also implements an equals method so that we can compare coordinates.
+ */
 public class Coordinate implements Comparable<Coordinate> {
 
     private int x;

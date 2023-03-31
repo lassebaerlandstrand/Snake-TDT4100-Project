@@ -6,8 +6,13 @@ import java.util.stream.Collectors;
 import Snake.Controller.ControllerListener;
 import Snake.Model.Game;
 
+/**
+ * Game handler for the Snake AI. This class extends the Game class, and overrides update 
+ * method by adding AI logic.
+ */
 public class GameAI extends Game {
 
+    /** The number of moves the AI should look ahead */
     private int movesAhead = 3;
 
     public GameAI() {

@@ -11,7 +11,9 @@ import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
 
-// Model
+/**
+ * Main model class for the Snake game. This class handles all the game logic, and keeps other objects updated.
+ */
 public class Game {
 
     private Snake snake;

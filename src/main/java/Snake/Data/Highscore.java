@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * File handler class for the highscore file
+ */
 public class Highscore {
 
     private File file;
@@ -36,6 +39,10 @@ public class Highscore {
         return file;
     }
 
+    /**
+     * Reads all scores from the file associated with this object
+     * @return A list of all {@link HighscoreObject HighscoreObjects} in the file associated with this object
+     */
     public List<HighscoreObject> readAllScores() {
         try (FileReader fileReader = new FileReader(file)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -56,6 +63,11 @@ public class Highscore {
         return null;
     }
 
+    /**
+     * Append a new score to the file associated with this object
+     * @param score The score to append
+     * @param playerType The type of player that got the score (e.g. Human or AI)
+     */
     public void addScore(int score, String playerType) {
         try (FileWriter fileWriter = new FileWriter(file, true)) { // Second parameter is true to append to file
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -72,6 +84,9 @@ public class Highscore {
 
     }
 
+    /**
+     * Removes all content in the file associated with this object
+     */
     public void resetAllScores() {
         try {
             new PrintWriter(file).close();
@@ -80,22 +95,31 @@ public class Highscore {
         }
     }
 
+    /**
+     * Get the highscore stored in the object, if you are looking for the highest score in the file, use {@link Highscore#getHighScoreReadFile getHighScoreReadFile}
+     * @return The highscore stored in the object (not necessarily the highest score in the file)
+     */
     public int getHighScore() {
         return highscore;
     }
 
+    /**
+     * Reads the file and returns the highest score in the file associated with this object
+     * @return The highest score in the file associated with this object
+     */
     public int getHighScoreReadFile() {
         List<HighscoreObject> allScores = readAllScores();
         if (allScores == null) {
             return 0;
         }
-        int highScore = 0;
+        int highscore = 0;
         for (HighscoreObject score : allScores) {
             int scoreInt = score.getScore();
-            if (scoreInt > highScore) {
-                highScore = scoreInt;
+            if (scoreInt > highscore) {
+                highscore = scoreInt;
             }
         }
-        return highScore;
+        this.highscore = highscore;
+        return highscore;
     }
 }

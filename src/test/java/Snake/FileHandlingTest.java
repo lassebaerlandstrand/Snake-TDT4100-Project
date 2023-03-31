@@ -28,7 +28,10 @@ public class FileHandlingTest {
         assertEquals(0, highscore.getHighScore(), "Non-existing highscore should return 0 as highscore");
 
         highscore.addScore(5, "Human");
-        assertEquals(5, highscore.getHighScore(), "Highscore should return 5 after adding it");
+        assertEquals(0, highscore.getHighScore(),
+                "This method should not read from file, only use the previously stored value");
+        assertEquals(5, highscore.getHighScoreReadFile(), "Highscore should return 5 after adding it");
+        assertEquals(5, highscore.getHighScore(), "Highscore is now updated and should return the actual highscore");
         assertTrue(highscore.readAllScores() != null, "Text file now has content");
 
         highscore.resetAllScores();

@@ -2,6 +2,9 @@ package Snake.Model;
 
 import javafx.scene.paint.Color;
 
+/**
+ * A cell in the snake, contains a coordinate and a color
+ */
 public class SnakeCell extends Coordinate {
 
     private Color color;

@@ -59,12 +59,15 @@ public final class SnakeAI extends Snake {
             DirectionData lastDirection = direction.get(direction.size() - 1);
             DirectionData lastBestDirection = bestDirection.get(bestDirection.size() - 1);
 
+            // Checks if new direction has more available area
             if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) > lastBestDirection
                     .getAvailableArea() + (hasEatenFood(bestDirection) ? 2 : 0)) {
                 bestDirection = new ArrayList<>(direction);
                 continue;
             }
 
+            // Checks if new direction has equal area, but less distance
+            // If equal distance, then chooses the direction with less moves
             if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) == lastBestDirection
                     .getAvailableArea() + (hasEatenFood(bestDirection) ? 2 : 0)) {
                 if (lastDirection.getDistance() < lastBestDirection.getDistance()) {
@@ -77,6 +80,7 @@ public final class SnakeAI extends Snake {
                 }
             }
 
+            // Checks if new direction has more or equal area, and less distance
             if (lastDirection.getAvailableArea() >= lastBestDirection.getAvailableArea()) {
                 if (lastDirection.getDistance() < lastBestDirection.getDistance()) {
                     bestDirection = new ArrayList<>(direction);
@@ -132,13 +136,23 @@ public final class SnakeAI extends Snake {
         return directions.stream().anyMatch(direction -> direction.getFoodEaten());
     }
 
-    // This method checks if the snake is trapped, and if so, it tries to find the best direction to move in
-    // Based on the available area for the snake to move in
+    /**
+     * Uses floodfill algorithm to detect the amount of available area for the snake to move to
+     * @param snake The snake to detect the available area for
+     * @return The amount of available area for the snake to move to
+     */
     private static int availableArea(Snake snake) {
         // Now we can use the floodfill algorithm to detect which way the snake should move to maximize the available area
         return floodFill(snake, snake.getHead().getPos(), new boolean[Constants.COLUMNCOUNT][Constants.ROWCOUNT]);
     }
 
+    /** 
+     * Checks whether a cell is within grid and not visited or part of the snake
+     * @param visited The grid of visited cells
+     * @param position The position to check
+     * @param snake The snake to check if position is a part of
+     * @return Whether the cell is valid
+     */
     private static boolean isValidCell(boolean[][] visited, Coordinate position, Snake snake) {
         int columns = visited.length;
         int rows = visited[0].length;
@@ -151,7 +165,7 @@ public final class SnakeAI extends Snake {
         return true;
     }
 
-    // Floodfill algorithm, returns size of visited area
+    /** Floodfill algorithm, returns size of visited area */
     public static int floodFill(Snake snake, Coordinate position, boolean[][] visited) {
         int columns = visited.length;
         int rows = visited[0].length;

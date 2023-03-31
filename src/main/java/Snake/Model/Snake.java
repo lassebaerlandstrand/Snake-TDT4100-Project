@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
 
+/**
+ * Snake class, contains all the logic for the snake.
+ */
 public class Snake {
 
     List<SnakeCell> snakeCells;
