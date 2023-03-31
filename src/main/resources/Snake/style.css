@@ -21,6 +21,7 @@
     -fx-font-color: white;
     -fx-font-size: 26px;
 }
+
 .list-view .list-cell:odd {
     -fx-background-color: #407a29;
     -fx-font-color: white;

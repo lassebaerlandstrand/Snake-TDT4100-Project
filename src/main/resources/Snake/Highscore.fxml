@@ -33,7 +33,7 @@
          </VBox.margin>
       </HBox>
       <Region prefHeight="59.0" prefWidth="760.0" />
-      <BorderPane prefHeight="577.0" prefWidth="800.0">
+      <BorderPane prefHeight="577.0" prefWidth="800.0" stylesheets="@style.css">
          <center>
             <ListView fx:id="listView" focusTraversable="false" prefHeight="323.0" prefWidth="460.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -42,12 +42,12 @@
             </ListView>
          </center>
          <top>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="HIGHSCORE" BorderPane.alignment="CENTER">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="highscore" text="HIGHSCORES" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="25.0" />
                </BorderPane.margin>
                <font>
-                  <Font name="Jokerman" size="42.0" />
+                  <Font name="Lucida Sans Demibold Italic" size="42.0" />
                </font>
             </Text>
          </top>
