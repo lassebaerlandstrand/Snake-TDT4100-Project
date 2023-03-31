@@ -18,13 +18,11 @@
 
 .list-view .list-cell:even {
     -fx-background-color: #3b6f25;
-    -fx-text-fill: yellow;
     -fx-font-color: white;
-    -fx-font-size: 30px;
+    -fx-font-size: 26px;
 }
 .list-view .list-cell:odd {
     -fx-background-color: #407a29;
-    -fx-text-fill: blue;
     -fx-font-color: white;
-    -fx-font-size: 30px;
+    -fx-font-size: 26px;
 }

@@ -50,12 +50,26 @@
             </Text>
             <HBox alignment="CENTER_RIGHT" prefWidth="400.0">
                <children>
+                  <Button id="highScoreButton" fx:id="toggleSnakeButton" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#toggleSnake" stylesheets="@style.css" text="Snake AI" textFill="WHITE">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="15.0" left="35.0" right="35.0" top="15.0" />
+                     </padding>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="35.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button id="highScoreButton" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#switchToHighscore" stylesheets="@style.css" text="Highscore" textFill="WHITE">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <HBox.margin>
-                        <Insets right="45.0" />
+                        <Insets right="35.0" />
                      </HBox.margin>
                      <padding>
                         <Insets bottom="15.0" left="35.0" right="35.0" top="15.0" />

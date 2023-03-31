@@ -38,36 +38,11 @@ public final class SnakeAI extends Snake {
                 .collect(Collectors.toList());
     }
 
-    public static List<Direction> AINextMove(Snake currentSnake, int movesAhead,
+    public static List<Direction> AINextMove(Snake currentSnake, int movesAhead, int initialMovesAhead,
             Coordinate food, List<Direction> previousDirections) {
 
-        List<List<Direction>> directions = new ArrayList<>();
-
-        List<int[]> validDirections = SnakeAI.getValidDirections(currentSnake);
-        for (int[] direction : validDirections) {
-            List<Direction> previousDirectionsCopy = previousDirections == null ? new ArrayList<>()
-                    : new ArrayList<>(previousDirections);
-            Snake snakeClone = new Snake(currentSnake, true);
-            snakeClone.addDirection(direction);
-            boolean ateFood = snakeClone.nextPositionPeek().equals(food);
-            snakeClone.move(ateFood);
-            int distance = Coordinate.distanceFast(snakeClone.getHead().getPos(), food);
-
-            if (movesAhead == 1 || ateFood) {
-                previousDirectionsCopy
-                        .add(new Direction(direction, availableArea(snakeClone), distance, ateFood));
-                directions.add(new ArrayList<>(previousDirectionsCopy));
-            } else {
-                previousDirectionsCopy
-                        .add(new Direction(direction, 0, distance, ateFood));
-                List<List<Direction>> directionList = new ArrayList<>(
-                        AINextMoveRecursion(snakeClone, movesAhead - 1, food,
-                                previousDirectionsCopy));
-                if (directionList != null) {
-                    directions.addAll(new ArrayList<>(directionList));
-                }
-            }
-        }
+        List<List<Direction>> directions = new ArrayList<>(AINextMoveRecursion(currentSnake, movesAhead, food,
+                previousDirections));
 
         List<Direction> bestDirection = null;
         for (List<Direction> direction : directions) {
@@ -79,14 +54,22 @@ public final class SnakeAI extends Snake {
             Direction lastDirection = direction.get(direction.size() - 1);
             Direction lastBestDirection = bestDirection.get(bestDirection.size() - 1);
 
-            // if (lastDirection.getAvailableArea() <= currentSnake.getLength() + (hasEatenFood(direction) ? 1 : 0)) {
-            //     continue;
-            // }
-
             if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) > lastBestDirection
                     .getAvailableArea() + (hasEatenFood(bestDirection) ? 2 : 0)) {
                 bestDirection = new ArrayList<>(direction);
                 continue;
+            }
+
+            if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) == lastBestDirection
+                    .getAvailableArea() + (hasEatenFood(bestDirection) ? 2 : 0)) {
+                if (lastDirection.getDistance() < lastBestDirection.getDistance()) {
+                    bestDirection = new ArrayList<>(direction);
+                    continue;
+                } else if (lastDirection.getDistance() == lastBestDirection.getDistance()
+                        && direction.size() < bestDirection.size()) {
+                    bestDirection = new ArrayList<>(direction);
+                    continue;
+                }
             }
 
             if (lastDirection.getAvailableArea() >= lastBestDirection.getAvailableArea()) {
@@ -94,18 +77,6 @@ public final class SnakeAI extends Snake {
                     bestDirection = new ArrayList<>(direction);
                 }
             }
-
-            // Original
-            // if (hasEatenFood(direction) && lastDirection.getAvailableArea() > currentSnake.getLength() + 1) {
-            //     bestDirection = new ArrayList<>(direction);
-            // } else if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) > lastBestDirection
-            //         .getAvailableArea() + (hasEatenFood(bestDirection) ? 2 : 0)) {
-            //     bestDirection = new ArrayList<>(direction);
-            // } else if (lastDirection.getAvailableArea() == lastBestDirection.getAvailableArea()) {
-            //     if (lastDirection.getDistance() < lastBestDirection.getDistance()) {
-            //         bestDirection = new ArrayList<>(direction);
-            //     }
-            // }
         }
         return bestDirection;
     }

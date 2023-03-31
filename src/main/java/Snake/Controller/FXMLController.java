@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import Snake.App;
-import Snake.Data.Highscore;
 import Snake.Model.Game;
 import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
@@ -15,6 +14,7 @@ import Snake.View.GameView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -26,6 +26,9 @@ public class FXMLController implements ControllerListener {
     private Game game;
     private GameView gameView;
     private Date gameOverTimestamp;
+    private ScheduledExecutorService executor;
+
+    private boolean activatedAI = false;
 
     @FXML
     private Canvas canvas;
@@ -43,9 +46,13 @@ public class FXMLController implements ControllerListener {
     @FXML
     private Text gameOverHighscore;
 
+    @FXML
+    private Button toggleSnakeButton;
+
     public FXMLController() {
-        this.game = new GameAI(this);
+        this.game = new Game(this);
         this.gameView = new GameView();
+        executor = Executors.newScheduledThreadPool(1);
     }
 
     Runnable frameUpdate = () -> {
@@ -60,9 +67,8 @@ public class FXMLController implements ControllerListener {
         canvas.requestFocus();
         gameView.drawInitial(canvas, game);
         setScoreText(game.getScore());
-        setHighscoreText(new Highscore("highscore.txt").getHighScore());
+        setHighscoreText(game.getHighScore());
 
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(frameUpdate, 0, (long) Constants.FRAMETIME.toMillis(), TimeUnit.MILLISECONDS);
     }
 
@@ -73,10 +79,14 @@ public class FXMLController implements ControllerListener {
             return;
         }
 
-        if (game.getGameOver() || game instanceof GameAI) {
+        if (game.getGameOver()) {
             // Cooldown for when to restart game, this is because one could press a key right after death, and consequently skip game over screen
             if (getTimeBetweenGameOver() > 800)
                 restartGame();
+            return;
+        }
+
+        if (game instanceof GameAI) {
             return;
         }
 
@@ -152,6 +162,23 @@ public class FXMLController implements ControllerListener {
         }
         Date now = new Date();
         return (int) (now.getTime() - gameOverTimestamp.getTime());
+    }
+
+    public void toggleSnake() {
+        activatedAI = !activatedAI;
+        gameView.resetView(canvas, game);
+        if (activatedAI) {
+            game = new GameAI(this);
+            toggleSnakeButton.setText("Turn off AI");
+            Constants.setFrameRate(Constants.FRAMERATE_AI);
+        } else {
+            game = new Game(this);
+            toggleSnakeButton.setText("Snake AI");
+            Constants.setFrameRate(Constants.FRAMERATE_HUMAN);
+        }
+        executor.scheduleAtFixedRate(frameUpdate, 0, (long) Constants.FRAMETIME.toMillis(), TimeUnit.MILLISECONDS);
+        setScoreText(game.getScore());
+        resetGameOver();
     }
 
 }

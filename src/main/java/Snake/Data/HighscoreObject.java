@@ -5,10 +5,18 @@ import java.time.LocalDateTime;
 public class HighscoreObject implements Comparable<HighscoreObject> {
 
     private LocalDateTime time;
+    private String playerType;
     private int score;
 
-    public HighscoreObject(LocalDateTime time, int score) {
+    // public HighscoreObject(LocalDateTime time, int score) {
+    //     this.time = time;
+    //     this.score = score;
+    //     playerType = "Human";
+    // }
+
+    public HighscoreObject(LocalDateTime time, String playerType, int score) {
         this.time = time;
+        this.playerType = playerType;
         this.score = score;
     }
 
@@ -18,6 +26,10 @@ public class HighscoreObject implements Comparable<HighscoreObject> {
 
     public int getScore() {
         return score;
+    }
+
+    public String getPlayerType() {
+        return playerType;
     }
 
     @Override

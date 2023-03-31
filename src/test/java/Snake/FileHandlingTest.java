@@ -27,7 +27,7 @@ public class FileHandlingTest {
         assertTrue(highscore.readAllScores() == null, "Non-existing highscore file has no content");
         assertEquals(0, highscore.getHighScore(), "Non-existing highscore should return 0 as highscore");
 
-        highscore.addScore(5);
+        highscore.addScore(5, "Human");
         assertEquals(5, highscore.getHighScore(), "Highscore should return 5 after adding it");
         assertTrue(highscore.readAllScores() != null, "Text file now has content");
 

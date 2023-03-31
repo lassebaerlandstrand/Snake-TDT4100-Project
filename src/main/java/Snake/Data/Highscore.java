@@ -17,15 +17,13 @@ import java.util.List;
 public class Highscore {
 
     private File file;
+    private int highscore; // Cache values, so we don't have to read from file every time
 
     public Highscore(String fileName) {
         Path projectPath = Paths.get("").toAbsolutePath();
-        String dataPath = "/src/main/java/Snake/Data";
+        String dataPath = "/src/main/resources/Snake/Data";
         file = new File(projectPath.toAbsolutePath().toString() + dataPath + "/" + fileName);
-        // try {
-        //     //file = new File(getClass().getResource(fileName).toURI());
-        //     file = new File(currentDir.toAbsolutePath().toString() + projectPath + "/" + fileName);
-        // } 
+        highscore = getHighScoreReadFile();
     }
 
     public File getFile() {
@@ -39,8 +37,9 @@ public class Highscore {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 LocalDateTime time = LocalDateTime.parse(line.split(",")[0]);
-                int score = Integer.parseInt(line.split(",")[1]);
-                highscoreObjects.add(new HighscoreObject(time, score));
+                String playerType = line.split(",")[1];
+                int score = Integer.parseInt(line.split(",")[2]);
+                highscoreObjects.add(new HighscoreObject(time, playerType, score));
             }
             return highscoreObjects;
         } catch (FileNotFoundException e) {
@@ -51,11 +50,12 @@ public class Highscore {
         return null;
     }
 
-    public void addScore(int score) {
-        try (FileWriter fileWriter = new FileWriter(file, true)) { // True = append
+    public void addScore(int score, String playerType) {
+        try (FileWriter fileWriter = new FileWriter(file, true)) { // Second parameter is true to append to file
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            HighscoreObject highscoreObject = new HighscoreObject(LocalDateTime.now(), score);
-            bufferedWriter.write(highscoreObject.getTime() + "," + highscoreObject.getScore() + "\n");
+            HighscoreObject highscoreObject = new HighscoreObject(LocalDateTime.now(), playerType, score);
+            bufferedWriter.write(
+                    highscoreObject.getTime() + "," + playerType + "," + highscoreObject.getScore() + "," + "\n");
             bufferedWriter.flush();
             bufferedWriter.close();
         } catch (FileNotFoundException e) {
@@ -75,6 +75,10 @@ public class Highscore {
     }
 
     public int getHighScore() {
+        return highscore;
+    }
+
+    public int getHighScoreReadFile() {
         List<HighscoreObject> allScores = readAllScores();
         if (allScores == null) {
             return 0;

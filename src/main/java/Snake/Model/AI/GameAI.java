@@ -23,7 +23,7 @@ public class GameAI extends Game {
         if (getGameOver() || getPaused())
             return;
         if (getSnake().getDirectionSize() == 0) {
-            List<Direction> bestMove = SnakeAI.AINextMove(getSnake(), movesAhead, getFood(), null);
+            List<Direction> bestMove = SnakeAI.AINextMove(getSnake(), movesAhead, movesAhead, getFood(), null);
             if (bestMove != null) {
                 getSnake().addDirection(
                         bestMove.stream().map(direction -> direction.getDirection()).collect(Collectors.toList()));

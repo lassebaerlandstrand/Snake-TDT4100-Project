@@ -81,11 +81,6 @@ public class Snake {
         snakeCells.add(index, cell);
     }
 
-    // TODO: DELETE THIS; ONLY USED FOR TESTING
-    public void appendSnakeCells(SnakeCell cell) {
-        snakeCells.add(cell);
-    }
-
     private void replaceSnakeCell(int index, SnakeCell cell) {
         snakeCells.set(index, cell);
     }

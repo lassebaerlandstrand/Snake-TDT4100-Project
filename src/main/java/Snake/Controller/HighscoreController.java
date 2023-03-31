@@ -46,8 +46,9 @@ public class HighscoreController {
         for (HighscoreObject highscoreObject : highscoreList) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
             String time = highscoreObject.getTime().format(formatter);
+            String playerType = highscoreObject.getPlayerType();
             String score = String.valueOf(highscoreObject.getScore());
-            listCells.add(new ListCell(time, score));
+            listCells.add(new ListCell(String.format("%s (%s)", time, playerType), score));
         }
 
         listView.getItems().addAll(FXCollections.observableArrayList(listCells));

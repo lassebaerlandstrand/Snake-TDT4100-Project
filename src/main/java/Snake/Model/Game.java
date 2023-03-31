@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import Snake.Controller.ControllerListener;
 import Snake.Data.Highscore;
+import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
 import javafx.scene.paint.Color;
 
@@ -92,7 +93,8 @@ public class Game {
             snake.move(ateFood);
         } else {
             gameOver = true;
-            highscore.addScore(score);
+            String playerType = this instanceof GameAI ? "AI" : "Human";
+            highscore.addScore(score, playerType);
             snake.setHeadColor(Color.web("#ff0000"));
             snake.setBodyColor(Color.web("#fb5d39"));
             if (controller != null)
