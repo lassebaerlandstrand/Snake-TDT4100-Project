@@ -16,6 +16,7 @@ public class Snake {
     private Color headColor = Color.web("#008000");
     private Color bodyColor = Color.web("#07bc07");
 
+    /** Creates a new snake at start position */
     public Snake(int startX, int startY) {
         if (startX < 0 || startX >= Constants.COLUMNCOUNT || startY < 0 || startY >= Constants.ROWCOUNT)
             throw new IllegalArgumentException("Start position must be within the grid");
@@ -30,7 +31,7 @@ public class Snake {
         this.directionQueue = new DirectionDefaultList(new int[] { 0, 0 }, allowDuplicates);
     }
 
-    // Deep copy snake
+    /** Deep copy snake */
     public Snake(Snake snake) {
         this.snakeCells = snake.getSnakeCells().stream().map(cell -> new SnakeCell(cell)).collect(Collectors.toList());
         this.directionQueue = new DirectionDefaultList(snake.getDirectionPeek(), false); // Not excatly a deep copy, but sufficient for this use case
@@ -138,6 +139,11 @@ public class Snake {
         return true;
     }
 
+    /**
+     * Moves the snake in the stored direction
+     * @param grow If true, the snake will grow by one cell. Like when the snake eats an apple.
+     * @throws IllegalStateException If the next position is invalid, this should be explicitly check before calling this method
+     */
     public void move(boolean grow) {
         if (!nextMoveValid()) {
             throw new IllegalStateException("Cannot move snake to invalid position");

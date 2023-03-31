@@ -39,13 +39,21 @@ public class Coordinate implements Comparable<Coordinate> {
         return this.x == ((Coordinate) arg0).getX() && this.y == ((Coordinate) arg0).getY();
     }
 
-    public static double distance(Coordinate a, Coordinate b) {
-        return Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
+    /**
+     * @return The accurate distance between the two coordinates
+     */
+    public static double distance(Coordinate coord1, Coordinate coord2) {
+        return Math.sqrt(Math.pow(coord1.getX() - coord2.getX(), 2) + Math.pow(coord1.getY() - coord2.getY(), 2));
     }
 
-    // Used when comparing distances which both uses this method, where the only thing that matters is if one is larger than the other. This does not give the actual distance, but gives a method for comparing distances.
-    public static int distanceFast(Coordinate a, Coordinate b) {
-        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+    /**
+     * Used when comparing distances which both uses this method, where the only thing that matters is if one is larger than the other. This does not give the actual distance, but gives a method for comparing distances.
+     * @param coord1 The first coordinate
+     * @param coord2 The second coordinate
+     * @return A number which indicates the distance between the two coordinates (not the actual distance)
+     */
+    public static int distanceFast(Coordinate coord1, Coordinate coord2) {
+        return Math.abs(coord1.getX() - coord2.getX()) + Math.abs(coord1.getY() - coord2.getY());
     }
 
     @Override

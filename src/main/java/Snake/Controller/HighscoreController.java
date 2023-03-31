@@ -21,7 +21,7 @@ public class HighscoreController {
     @FXML
     private ListView<ListCell> listView;
 
-    // This is a custom cell for the ListView, this enables us to left align time and right align score
+    /** This is a custom cell for the ListView, this enables us to left align time and right align score */
     public static class ListCell extends HBox {
         Label label1 = new Label();
         Label label2 = new Label();

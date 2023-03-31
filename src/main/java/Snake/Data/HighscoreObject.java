@@ -8,12 +8,6 @@ public class HighscoreObject implements Comparable<HighscoreObject> {
     private String playerType;
     private int score;
 
-    // public HighscoreObject(LocalDateTime time, int score) {
-    //     this.time = time;
-    //     this.score = score;
-    //     playerType = "Human";
-    // }
-
     public HighscoreObject(LocalDateTime time, String playerType, int score) {
         this.time = time;
         this.playerType = playerType;

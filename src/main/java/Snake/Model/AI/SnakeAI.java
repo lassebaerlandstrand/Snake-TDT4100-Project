@@ -16,7 +16,7 @@ import Snake.Model.Coordinate;
 import Snake.Model.Snake;
 import Snake.Utils.Constants;
 
-/*
+/**
  * This is a simple AI, which does not use advanced AI techniques 
  * like neural networks or Q-learning (Reinforcement learning). 
  * This does not use perfect snake algorithms, e.g. Hamiltonian Cycle.
@@ -44,20 +44,20 @@ public final class SnakeAI extends Snake {
                 .collect(Collectors.toList());
     }
 
-    public static List<Direction> AINextMove(Snake currentSnake, int movesAhead, int initialMovesAhead,
-            Coordinate food, List<Direction> previousDirections) {
-        List<List<Direction>> directions = new ArrayList<>(AINextMoveRecursion(currentSnake, movesAhead, food,
+    public static List<DirectionData> AINextMove(Snake currentSnake, int movesAhead, int initialMovesAhead,
+            Coordinate food, List<DirectionData> previousDirections) {
+        List<List<DirectionData>> directions = new ArrayList<>(AINextMoveRecursion(currentSnake, movesAhead, food,
                 previousDirections));
 
-        List<Direction> bestDirection = null;
-        for (List<Direction> direction : directions) {
+        List<DirectionData> bestDirection = null;
+        for (List<DirectionData> direction : directions) {
             if (bestDirection == null) {
                 bestDirection = new ArrayList<>(direction);
                 continue;
             }
 
-            Direction lastDirection = direction.get(direction.size() - 1);
-            Direction lastBestDirection = bestDirection.get(bestDirection.size() - 1);
+            DirectionData lastDirection = direction.get(direction.size() - 1);
+            DirectionData lastBestDirection = bestDirection.get(bestDirection.size() - 1);
 
             if (lastDirection.getAvailableArea() + (hasEatenFood(direction) ? 2 : 0) > lastBestDirection
                     .getAvailableArea() + (hasEatenFood(bestDirection) ? 2 : 0)) {
@@ -86,15 +86,15 @@ public final class SnakeAI extends Snake {
         return bestDirection;
     }
 
-    public static List<List<Direction>> AINextMoveRecursion(Snake currentSnake, int movesAhead,
-            Coordinate food, List<Direction> previousDirections) {
-        List<List<Direction>> directions = new ArrayList<>();
+    public static List<List<DirectionData>> AINextMoveRecursion(Snake currentSnake, int movesAhead,
+            Coordinate food, List<DirectionData> previousDirections) {
+        List<List<DirectionData>> directions = new ArrayList<>();
         ExecutorService executor = Executors.newFixedThreadPool(threadPool);
-        List<Future<List<List<Direction>>>> futureResults = new ArrayList<>();
+        List<Future<List<List<DirectionData>>>> futureResults = new ArrayList<>();
 
         List<int[]> validDirections = SnakeAI.getValidDirections(currentSnake);
         for (int[] direction : validDirections) {
-            List<Direction> previousDirectionsCopy = previousDirections == null ? new ArrayList<>()
+            List<DirectionData> previousDirectionsCopy = previousDirections == null ? new ArrayList<>()
                     : new ArrayList<>(previousDirections);
             Snake snakeClone = new Snake(currentSnake, true);
             snakeClone.addDirection(direction);
@@ -104,21 +104,22 @@ public final class SnakeAI extends Snake {
 
             if (movesAhead == 1 || ateFood) {
                 previousDirectionsCopy
-                        .add(new Direction(direction, availableArea(snakeClone), distance, ateFood));
+                        .add(new DirectionData(direction, availableArea(snakeClone), distance, ateFood));
                 directions.add(new ArrayList<>(previousDirectionsCopy));
             } else {
                 previousDirectionsCopy
-                        .add(new Direction(direction, 0, distance, ateFood));
-                Callable<List<List<Direction>>> callable = () -> AINextMoveRecursion(snakeClone, movesAhead - 1, food,
+                        .add(new DirectionData(direction, 0, distance, ateFood));
+                Callable<List<List<DirectionData>>> callable = () -> AINextMoveRecursion(snakeClone, movesAhead - 1,
+                        food,
                         previousDirectionsCopy);
                 futureResults.add(executor.submit(callable));
             }
         }
 
         executor.shutdown();
-        for (Future<List<List<Direction>>> future : futureResults) {
+        for (Future<List<List<DirectionData>>> future : futureResults) {
             try {
-                List<List<Direction>> result = future.get();
+                List<List<DirectionData>> result = future.get();
                 directions.addAll(result);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -127,7 +128,7 @@ public final class SnakeAI extends Snake {
         return directions;
     }
 
-    private static boolean hasEatenFood(List<Direction> directions) {
+    private static boolean hasEatenFood(List<DirectionData> directions) {
         return directions.stream().anyMatch(direction -> direction.getFoodEaten());
     }
 

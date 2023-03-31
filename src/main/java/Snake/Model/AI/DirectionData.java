@@ -3,13 +3,17 @@ package Snake.Model.AI;
 import java.util.Arrays;
 import java.util.Random;
 
-final class Direction {
+/**
+ * Information about the direction of the snake
+ * This includes the direction, available area, distance to food, and whether the food was eaten
+ */
+final class DirectionData {
     private int[] direction;
     private int availableArea;
     private int distance;
     private boolean foodEaten;
 
-    public Direction(int[] direction, int availableArea, int distance, boolean foodEaten) {
+    public DirectionData(int[] direction, int availableArea, int distance, boolean foodEaten) {
         this.direction = direction;
         this.availableArea = availableArea;
         this.distance = distance;

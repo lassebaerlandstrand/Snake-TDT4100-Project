@@ -19,6 +19,12 @@ public class Highscore {
     private File file;
     private int highscore; // Cache values, so we don't have to read from file every time
 
+    /**
+     * <p>Creates a new Highscore object with the given file name</p>
+     * <p>If the file does exist, information will be appended at the end</p>
+     * <p>If the file does not exist, it will be created</p>
+     * @param fileName The name of the file in ''../resources/Snake/Data' to read from
+     */
     public Highscore(String fileName) {
         Path projectPath = Paths.get("").toAbsolutePath();
         String dataPath = "/src/main/resources/Snake/Data";

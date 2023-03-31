@@ -4,10 +4,12 @@ import java.util.Arrays;
 
 import Snake.Utils.DefaultList;
 
-// QueueList with the specified type int[], this allows us to compare elements in the array
+/**
+ * {@link DefaultList} with the specified type int[], this allows us to compare elements in the array
+ */
 public class DirectionDefaultList extends DefaultList<int[]> {
 
-    // The AI needs to be able to add to duplicate directions to the queue
+    /** The AI needs to be able to add to duplicate directions to the queue */
     private boolean allowDuplicates = false;
 
     public DirectionDefaultList(int[] defaultValue) {

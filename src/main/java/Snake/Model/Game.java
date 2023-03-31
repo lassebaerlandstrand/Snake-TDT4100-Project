@@ -23,7 +23,7 @@ public class Game {
     private Highscore highscore;
 
     // Save a copy of allPositions to avoid creating a new list every time
-    private List<Coordinate> allPositions = IntStream.range(0, Constants.COLUMNCOUNT)
+    private static List<Coordinate> allPositions = IntStream.range(0, Constants.COLUMNCOUNT)
             .mapToObj(x -> IntStream.range(0, Constants.ROWCOUNT).mapToObj(y -> new Coordinate(x, y)))
             .flatMap(x -> x).collect(Collectors.toList());
 

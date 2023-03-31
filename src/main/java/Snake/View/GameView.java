@@ -130,7 +130,7 @@ public class GameView {
         drawFrame(canvas, game);
     }
 
-    // Draw over the previous game's snake and apple
+    /** Draw over the previous game's snake and apple */
     public void resetView(Canvas canvas, Game game) {
         GraphicsContext context = canvas.getGraphicsContext2D();
 
