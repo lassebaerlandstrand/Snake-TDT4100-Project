@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,6 +25,8 @@ import Snake.Utils.Constants;
  * This AI works by looking certain steps ahead, and then choosing the best move.
  */
 public final class SnakeAI extends Snake {
+
+    private static int threadPool = Runtime.getRuntime().availableProcessors() / 2;
 
     private SnakeAI() {
         super(null, true);
@@ -40,7 +46,6 @@ public final class SnakeAI extends Snake {
 
     public static List<Direction> AINextMove(Snake currentSnake, int movesAhead, int initialMovesAhead,
             Coordinate food, List<Direction> previousDirections) {
-
         List<List<Direction>> directions = new ArrayList<>(AINextMoveRecursion(currentSnake, movesAhead, food,
                 previousDirections));
 
@@ -84,6 +89,8 @@ public final class SnakeAI extends Snake {
     public static List<List<Direction>> AINextMoveRecursion(Snake currentSnake, int movesAhead,
             Coordinate food, List<Direction> previousDirections) {
         List<List<Direction>> directions = new ArrayList<>();
+        ExecutorService executor = Executors.newFixedThreadPool(threadPool);
+        List<Future<List<List<Direction>>>> futureResults = new ArrayList<>();
 
         List<int[]> validDirections = SnakeAI.getValidDirections(currentSnake);
         for (int[] direction : validDirections) {
@@ -102,13 +109,21 @@ public final class SnakeAI extends Snake {
             } else {
                 previousDirectionsCopy
                         .add(new Direction(direction, 0, distance, ateFood));
-                List<List<Direction>> directionList = AINextMoveRecursion(snakeClone, movesAhead - 1, food,
+                Callable<List<List<Direction>>> callable = () -> AINextMoveRecursion(snakeClone, movesAhead - 1, food,
                         previousDirectionsCopy);
-                if (directionList != null)
-                    directions.addAll(new ArrayList<>(directionList));
+                futureResults.add(executor.submit(callable));
             }
         }
 
+        executor.shutdown();
+        for (Future<List<List<Direction>>> future : futureResults) {
+            try {
+                List<List<Direction>> result = future.get();
+                directions.addAll(result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return directions;
     }
 
