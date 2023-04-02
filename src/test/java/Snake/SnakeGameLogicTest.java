@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import Snake.Data.Highscore;
-import Snake.Model.Coordinate;
 import Snake.Model.Game;
 import Snake.Utils.Constants;
+import Snake.Utils.Coordinate;
 
 public class SnakeGameLogicTest {
 

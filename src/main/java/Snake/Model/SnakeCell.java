@@ -1,5 +1,6 @@
 package Snake.Model;
 
+import Snake.Utils.Coordinate;
 import javafx.scene.paint.Color;
 
 /**

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import Snake.Utils.Constants;
+import Snake.Utils.Coordinate;
+import Snake.Utils.DirectionDefaultList;
 import javafx.scene.paint.Color;
 
 /**

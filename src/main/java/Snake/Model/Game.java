@@ -9,6 +9,7 @@ import Snake.Controller.ControllerListener;
 import Snake.Data.Highscore;
 import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
+import Snake.Utils.Coordinate;
 import javafx.scene.paint.Color;
 
 /**

@@ -3,12 +3,12 @@ package Snake.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import Snake.Model.Coordinate;
 import Snake.Model.Food;
 import Snake.Model.Game;
 import Snake.Model.Snake;
 import Snake.Model.SnakeCell;
 import Snake.Utils.Constants;
+import Snake.Utils.Coordinate;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

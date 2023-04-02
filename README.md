@@ -10,12 +10,21 @@ Short description about Snake: <br/>
 Snake is a classic game in which the player controls a growing snake as it moves around a confined space, such as a grid. The objective of the game is to eat as many randomly placed apples as possible without colliding with the walls or the snake's own body. As the snake consumes more objects, it grows in length, making it more challenging to avoid obstacles and navigate the playing field. The game continues until the snake collides with a wall or its own body, at which point the player loses and must start again from the beginning.
 
 
+## How to play
+
+Run the main method in the [App Application](src/main/java/Snake/App.java). Then a 800x800 window opens. To start playing, press WASD or the arrow buttons, and the snake will move in the corresponding direction. If you would want to pause the game, press SPACE. The game will continue until you collide with the walls or youself. Then a Game Over screen will appear, which will display your score and the highscore. To continue playing, do the same as you initially did to start playing, in other words press WASD or the arrow buttons.  
+
 ## Logic and structure
+
+### Structure
+
+This project follows the [Model](src/main/java/Snake/Model/)-[View](src/main/java/Snake/View/)-[Controller](src/main/java/Snake/Controller/) (MVC) design pattern.
+The game logic is seperated into the [Model folder](src/main/java/Snake/Model/), and operate independently of the View and Controller, and therefore has no knowledge of the View's existence. It does however know about an [interface](src/main/java/Snake/Controller/ControllerListener.java) of the controller, which is used to implement the Observer-Observable pattern. Additionally, there is a [Utilities](src/main/java/Snake/Utils/) folder, containing various global classes and data types.
 
 ### Input handling
 
 The [controller](src/main/java/Snake/Controller/FXMLController.java) handles receiving keyboard inputs, and calls the corresponding method in the model.<br/> 
-To handle directional inputs, I have created a custom [datatype/class](src/main/java/Snake/Model/DirectionDefaultList.java), which is able to obtain multiple inputs on the same frame. The Queue interface served as a source of inspiration, but it has inherited the List interface because the final element is often retrieved. Every time an input is received, it is appended to the list. If the same input is received consecutively, only one instance is added to prevent accumulation of duplicates. Additionally, a default value is included to ensure that the datatype is never empty.
+To handle directional inputs, I have created a custom [datatype/class](src/main/java/Snake/Model/DirectionDefaultList.java), which is able to obtain multiple inputs on the same frame. The Queue interface served as a source of inspiration, but it has inherited the List interface because the final element is often retrieved. Every time an input is received, it is appended to the list. If the same input is received consecutively, only one instance is added to prevent accumulation of duplicates. Additionally, a default value is included to ensure that the datatype is never empty.'
 
 ### Rendering
 The rendering method in the [view](src/main/java/Snake/View/GameView.java) has been through many iterations to optimize and speed up the game.<br/>
@@ -34,6 +43,11 @@ This gives an enormous performance boost, as where we previously drew 10000 squa
 
 Combined, these optimizations enable one to play on a 4000x4000 grid without any performance issues. In tests, the initialization process took 3 seconds, and the game ran at over 1000 frames per second.
 
+## File handling
+Lorem ipsum dolor sit amet
+
+## Snake class
+*How the snake is constructed*
 
 
 

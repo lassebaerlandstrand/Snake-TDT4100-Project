@@ -12,9 +12,9 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import Snake.Model.Coordinate;
 import Snake.Model.Snake;
 import Snake.Utils.Constants;
+import Snake.Utils.Coordinate;
 
 /**
  * This is a simple AI, which does not use advanced AI techniques 

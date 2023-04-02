@@ -12,9 +12,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import Snake.Model.Coordinate;
 import Snake.Model.Snake;
 import Snake.Utils.Constants;
+import Snake.Utils.Coordinate;
 
 public class SnakeClassTest {
 
@@ -52,7 +52,7 @@ public class SnakeClassTest {
             snake.addDirection(new int[] { -1, 0 });
             assertTrue(Arrays.equals(new int[] { 1, 0 }, snake.getDirectionPeek())); // We are peeking, and not removing/executing the direction
             assertTrue(Arrays.equals(new int[] { 1, 0 }, snake.getDirection())); // Here we are getting the direction and removing it from the queue
-            assertTrue(Arrays.equals(new int[] { -1, 0 }, snake.getDirection())); // There this should return the direction we added last
+            assertTrue(Arrays.equals(new int[] { -1, 0 }, snake.getDirection())); // This should return the direction we added last
         }
 
         @Test

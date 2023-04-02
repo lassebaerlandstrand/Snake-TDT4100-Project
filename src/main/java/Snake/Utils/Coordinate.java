@@ -1,4 +1,4 @@
-package Snake.Model;
+package Snake.Utils;
 
 /**
  * This class is used to store x and y coordinates. It implements the Comparable interface, so that we can sort the coordinates.
@@ -51,7 +51,8 @@ public class Coordinate implements Comparable<Coordinate> {
     }
 
     /**
-     * Used when comparing distances which both uses this method, where the only thing that matters is if one is larger than the other. This does not give the actual distance, but gives a method for comparing distances.
+     * Used when comparing distances which both uses this method, where the only thing that matters is if one is larger than the other. 
+     * This does not give the actual distance, but gives a method for comparing distances.
      * @param coord1 The first coordinate
      * @param coord2 The second coordinate
      * @return A number which indicates the distance between the two coordinates (not the actual distance)

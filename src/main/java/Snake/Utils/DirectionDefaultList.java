@@ -1,8 +1,6 @@
-package Snake.Model;
+package Snake.Utils;
 
 import java.util.Arrays;
-
-import Snake.Utils.DefaultList;
 
 /**
  * {@link DefaultList} with the specified type int[], this allows us to compare elements in the array
