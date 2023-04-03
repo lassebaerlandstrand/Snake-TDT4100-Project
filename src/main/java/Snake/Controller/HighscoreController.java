@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import Snake.App;
-import Snake.Data.Highscore;
-import Snake.Data.HighscoreObject;
+import Snake.Data.HighScore;
+import Snake.Data.HighScoreObject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,7 +19,7 @@ import javafx.scene.layout.Priority;
 /**
  * Controller class for the highscore view.
  */
-public class HighscoreController {
+public class HighScoreController {
 
     @FXML
     private ListView<ListCell> listView;
@@ -42,11 +42,11 @@ public class HighscoreController {
 
     @FXML
     private void initialize() {
-        List<HighscoreObject> highscoreList = new Highscore("highscore.txt").readAllScores();
+        List<HighScoreObject> highscoreList = new HighScore("highscore.txt").readAllScores();
         Collections.sort(highscoreList);
         List<ListCell> listCells = new ArrayList<>();
 
-        for (HighscoreObject highscoreObject : highscoreList) {
+        for (HighScoreObject highscoreObject : highscoreList) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
             String time = highscoreObject.getTime().format(formatter);
             String playerType = highscoreObject.getPlayerType();

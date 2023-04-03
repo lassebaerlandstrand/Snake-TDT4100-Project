@@ -114,7 +114,7 @@ public class GameView {
     }
 
     public void drawFrame(Canvas canvas, Game game) {
-        if (!game.getGameOver()) {
+        if (!game.isGameOver()) {
             forceDrawFrame(canvas, game);
         }
     }

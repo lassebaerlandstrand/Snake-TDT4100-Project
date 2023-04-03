@@ -44,9 +44,9 @@ public final class SnakeAI extends Snake {
                 .collect(Collectors.toList());
     }
 
-    public static List<DirectionData> AINextMove(Snake currentSnake, int movesAhead, int initialMovesAhead,
+    public static List<DirectionData> AINextMove(Snake currentSnake, int depth, int initialDepth,
             Coordinate food, List<DirectionData> previousDirections) {
-        List<List<DirectionData>> directions = new ArrayList<>(AINextMoveRecursion(currentSnake, movesAhead, food,
+        List<List<DirectionData>> directions = new ArrayList<>(AINextMoveRecursion(currentSnake, depth, food,
                 previousDirections));
 
         List<DirectionData> bestDirection = null;
@@ -90,7 +90,7 @@ public final class SnakeAI extends Snake {
         return bestDirection;
     }
 
-    public static List<List<DirectionData>> AINextMoveRecursion(Snake currentSnake, int movesAhead,
+    public static List<List<DirectionData>> AINextMoveRecursion(Snake currentSnake, int depth,
             Coordinate food, List<DirectionData> previousDirections) {
         List<List<DirectionData>> directions = new ArrayList<>();
         ExecutorService executor = Executors.newFixedThreadPool(threadPool);
@@ -106,14 +106,14 @@ public final class SnakeAI extends Snake {
             snakeClone.move(ateFood);
             int distance = Coordinate.distanceFast(snakeClone.getHead().getPos(), food);
 
-            if (movesAhead == 1 || ateFood) {
+            if (depth == 1 || ateFood) {
                 previousDirectionsCopy
                         .add(new DirectionData(direction, availableArea(snakeClone), distance, ateFood));
                 directions.add(new ArrayList<>(previousDirectionsCopy));
             } else {
                 previousDirectionsCopy
                         .add(new DirectionData(direction, 0, distance, ateFood));
-                Callable<List<List<DirectionData>>> callable = () -> AINextMoveRecursion(snakeClone, movesAhead - 1,
+                Callable<List<List<DirectionData>>> callable = () -> AINextMoveRecursion(snakeClone, depth - 1,
                         food,
                         previousDirectionsCopy);
                 futureResults.add(executor.submit(callable));

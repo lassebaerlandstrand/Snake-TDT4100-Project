@@ -17,10 +17,10 @@ import java.util.List;
 /**
  * File handler class for the highscore file
  */
-public class Highscore {
+public class HighScore {
 
     private File file;
-    private int highscore; // Cache values, so we don't have to read from file every time
+    private int highScore; // Cache values, so we don't have to read from file every time
 
     /**
      * <p>Creates a new Highscore object with the given file name</p>
@@ -28,11 +28,11 @@ public class Highscore {
      * <p>If the file does not exist, it will be created</p>
      * @param fileName The name of the file in ''../resources/Snake/Data' to read from
      */
-    public Highscore(String fileName) {
+    public HighScore(String fileName) {
         Path projectPath = Paths.get("").toAbsolutePath();
         String dataPath = "/src/main/resources/Snake/Data";
         file = new File(projectPath.toAbsolutePath().toString() + dataPath + "/" + fileName);
-        highscore = getHighScoreReadFile();
+        highScore = getHighScoreReadFile();
     }
 
     public File getFile() {
@@ -41,18 +41,18 @@ public class Highscore {
 
     /**
      * Reads all scores from the file associated with this object
-     * @return A list of all {@link HighscoreObject HighscoreObjects} in the file associated with this object
+     * @return A list of all {@link HighScoreObject HighscoreObjects} in the file associated with this object
      */
-    public List<HighscoreObject> readAllScores() {
+    public List<HighScoreObject> readAllScores() {
         try (FileReader fileReader = new FileReader(file)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            List<HighscoreObject> highscoreObjects = new ArrayList<HighscoreObject>();
+            List<HighScoreObject> highscoreObjects = new ArrayList<HighScoreObject>();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 LocalDateTime time = LocalDateTime.parse(line.split(",")[0]);
                 String playerType = line.split(",")[1];
                 int score = Integer.parseInt(line.split(",")[2]);
-                highscoreObjects.add(new HighscoreObject(time, playerType, score));
+                highscoreObjects.add(new HighScoreObject(time, playerType, score));
             }
             return highscoreObjects;
         } catch (FileNotFoundException e) {
@@ -71,7 +71,7 @@ public class Highscore {
     public void addScore(int score, String playerType) {
         try (FileWriter fileWriter = new FileWriter(file, true)) { // Second parameter is true to append to file
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            HighscoreObject highscoreObject = new HighscoreObject(LocalDateTime.now(), playerType, score);
+            HighScoreObject highscoreObject = new HighScoreObject(LocalDateTime.now(), playerType, score);
             bufferedWriter.write(
                     highscoreObject.getTime() + "," + playerType + "," + highscoreObject.getScore() + "," + "\n");
             bufferedWriter.flush();
@@ -96,11 +96,11 @@ public class Highscore {
     }
 
     /**
-     * Get the highscore stored in the object, if you are looking for the highest score in the file, use {@link Highscore#getHighScoreReadFile getHighScoreReadFile}
+     * Get the highscore stored in the object, if you are looking for the highest score in the file, use {@link HighScore#getHighScoreReadFile getHighScoreReadFile}
      * @return The highscore stored in the object (not necessarily the highest score in the file)
      */
     public int getHighScore() {
-        return highscore;
+        return highScore;
     }
 
     /**
@@ -108,18 +108,18 @@ public class Highscore {
      * @return The highest score in the file associated with this object
      */
     public int getHighScoreReadFile() {
-        List<HighscoreObject> allScores = readAllScores();
+        List<HighScoreObject> allScores = readAllScores();
         if (allScores == null) {
             return 0;
         }
         int highscore = 0;
-        for (HighscoreObject score : allScores) {
+        for (HighScoreObject score : allScores) {
             int scoreInt = score.getScore();
             if (scoreInt > highscore) {
                 highscore = scoreInt;
             }
         }
-        this.highscore = highscore;
+        this.highScore = highscore;
         return highscore;
     }
 }

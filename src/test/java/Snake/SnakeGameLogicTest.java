@@ -13,7 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import Snake.Data.Highscore;
+import Snake.Data.HighScore;
 import Snake.Model.Game;
 import Snake.Utils.Constants;
 import Snake.Utils.Coordinate;
@@ -25,8 +25,8 @@ public class SnakeGameLogicTest {
     public void testConstructor() {
         Game game = new Game();
         assertEquals(0, game.getScore(), "Sjekke at scoren er null ved initialisering");
-        assertFalse(game.getGameOver(), "Sjekke at spillet ikke er over før det har startet");
-        assertEquals(new Highscore("highscore.txt").getHighScore(), game.getHighScore());
+        assertFalse(game.isGameOver(), "Sjekke at spillet ikke er over før det har startet");
+        assertEquals(new HighScore("highscore.txt").getHighScore(), game.getHighScore());
 
         // Check if available positions match
         List<Coordinate> availablePositions = game.getAvailablePositions();

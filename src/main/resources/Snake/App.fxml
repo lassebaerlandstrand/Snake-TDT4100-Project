@@ -64,7 +64,7 @@
                         <Insets right="35.0" />
                      </HBox.margin>
                   </Button>
-                  <Button id="highScoreButton" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#switchToHighscore" stylesheets="@style.css" text="Highscore" textFill="WHITE">
+                  <Button id="highScoreButton" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#switchToHighscore" stylesheets="@style.css" text="High scores" textFill="WHITE">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

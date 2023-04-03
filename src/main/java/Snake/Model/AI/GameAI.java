@@ -13,7 +13,7 @@ import Snake.Model.Game;
 public class GameAI extends Game {
 
     /** The number of moves the AI should look ahead */
-    private int movesAhead = 3;
+    private int movesDepth = 3;
 
     public GameAI() {
         super(true);
@@ -25,10 +25,10 @@ public class GameAI extends Game {
 
     @Override
     public void update() {
-        if (getGameOver() || getPaused())
+        if (isGameOver() || getPaused())
             return;
         if (getSnake().getDirectionSize() == 0) {
-            List<DirectionData> bestMove = SnakeAI.AINextMove(getSnake(), movesAhead, movesAhead, getFood(), null);
+            List<DirectionData> bestMove = SnakeAI.AINextMove(getSnake(), movesDepth, movesDepth, getFood(), null);
             if (bestMove != null) {
                 getSnake().addDirection(
                         bestMove.stream().map(direction -> direction.getDirection()).collect(Collectors.toList()));

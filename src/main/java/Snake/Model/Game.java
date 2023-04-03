@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import Snake.Controller.ControllerListener;
-import Snake.Data.Highscore;
+import Snake.Data.HighScore;
 import Snake.Model.AI.GameAI;
 import Snake.Utils.Constants;
 import Snake.Utils.Coordinate;
@@ -23,7 +23,7 @@ public class Game {
     private Food food;
     private boolean paused = false;
     private ControllerListener controller;
-    private Highscore highscore;
+    private HighScore highscore;
 
     // Save a copy of allPositions to avoid creating a new list every time
     private static List<Coordinate> allPositions = IntStream.range(0, Constants.COLUMNCOUNT)
@@ -34,7 +34,7 @@ public class Game {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
-        highscore = new Highscore("highscore.txt");
+        highscore = new HighScore("highscore.txt");
         food = new Food(getRandomAvailablePosition());
     }
 
@@ -42,7 +42,7 @@ public class Game {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT), allowDuplicatesInputs);
         this.score = 0;
-        highscore = new Highscore("highscore.txt");
+        highscore = new HighScore("highscore.txt");
         food = new Food(getRandomAvailablePosition());
     }
 
@@ -64,7 +64,7 @@ public class Game {
         return this.food;
     }
 
-    public boolean getGameOver() {
+    public boolean isGameOver() {
         return this.gameOver;
     }
 

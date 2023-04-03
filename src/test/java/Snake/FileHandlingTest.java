@@ -7,21 +7,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import Snake.Data.Highscore;
+import Snake.Data.HighScore;
 
 public class FileHandlingTest {
 
     @Test
     @DisplayName("Test existing highscore")
     public void testHighscoreExistingFile() {
-        Highscore highscore = new Highscore("highscore.txt");
+        HighScore highscore = new HighScore("highscore.txt");
         assertTrue(highscore.getFile().exists(), "Existing highscore file should exist");
     }
 
     @Test
     @DisplayName("Test non-existing highscore")
     public void testHighscoreNonExistingFile() {
-        Highscore highscore = new Highscore("highscore1.txt");
+        HighScore highscore = new HighScore("highscore1.txt");
 
         assertFalse(highscore.getFile().exists(), "Non-existing highscore file should not exist");
         assertTrue(highscore.readAllScores() == null, "Non-existing highscore file has no content");

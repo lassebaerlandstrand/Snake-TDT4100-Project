@@ -49,8 +49,15 @@ Lorem ipsum dolor sit amet
 ## Snake class
 *How the snake is constructed*
 
+## Snake AI
+The implementation of an algorithm that plays snake, is done by extending already implemented logic, and therefore work on top of the existing game. The [`GameAI`](src/main/java/Snake/Model/AI/GameAI.java) class is created by extending the [`Game`](src/main/java/Snake/Model/Game.java) class and overriding its `update()` method. When the snake has no more directions to move, we invoke the `AINextMove` static method from the [`SnakeAI`](src/main/java/Snake/Model/AI/SnakeAI.java) class. This then returns a list of directions, which we use to update the original Snake object's list of directions. The `GameAI`'s update method continues with calling the superclass' update method, in other words, `Game`'s update method.
+<br/>
+<br/>
+The `SnakeAI` class is comprised solely of static methods. The primary method, `AINextMove`, takes the Snake object and returns the list of best possible moves. The AI algorithm works by looking several moves into the future, and deciding the optimal move to ensure its survival and fulfulling its goal of eating an apple. Recursion is employed to explore future moves, and the `AINextMoveRecursion` method generates a list of all possible moves the Snake could take. The `AINextMove` method then uses this list along with a set of instructions to determine the optimal list of moves. An important factor in selecting the optimal move, is to get the available space for the snake to move in. If a particular move results in a significantly smaller area, then that move would be de-prioritized. The flood fill algorithm is utilized to obtain the available space.
+To further enhance performance, the AI's recursion method now utilizes multithreading.
 
-
+## Class diagram
+![Class diagram](img/TDT4100%20-%20Project%20-%20Class%20Diagram.jpg)
 
 ## Images of the game
 ![Highscore Image](img/SnakeAI.gif)

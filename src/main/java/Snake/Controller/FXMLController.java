@@ -81,7 +81,7 @@ public class FXMLController implements ControllerListener {
             return;
         }
 
-        if (game.getGameOver()) {
+        if (game.isGameOver()) {
             // Cooldown for when to restart game, this is because one could press a key right after death, and consequently skip game over screen
             if (getTimeBetweenGameOver() > 800)
                 restartGame();
@@ -134,7 +134,7 @@ public class FXMLController implements ControllerListener {
 
     @FXML
     private void switchToHighscore() throws IOException {
-        App.setRoot("Highscore");
+        App.setRoot("HighScores");
     }
 
     @Override

@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class Snake {
 
-    List<SnakeCell> snakeCells;
+    private List<SnakeCell> snakeCells;
     private DirectionDefaultList directionQueue = new DirectionDefaultList(new int[] { 0, 0 }, false);
 
     private Color headColor = Color.web("#008000");
@@ -89,6 +89,10 @@ public class Snake {
 
     private void replaceSnakeCell(int index, SnakeCell cell) {
         snakeCells.set(index, cell);
+    }
+
+    private void removeSnakeCell(int index) {
+        snakeCells.remove(index);
     }
 
     public SnakeCell getHead() {
@@ -170,7 +174,7 @@ public class Snake {
 
         // Don't remove tail if we are growing
         if (getLength() > 1 && !grow)
-            snakeCells.remove(getLength() - 1);
+            removeSnakeCell(getLength() - 1);
     }
 
     public void setHeadColor(Color color) {

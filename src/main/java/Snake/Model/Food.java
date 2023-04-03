@@ -27,7 +27,6 @@ public class Food extends Coordinate {
         return new Coordinate(getX(), getY());
     }
 
-    // Not needed
     public boolean isEaten() {
         return isEaten;
     }
