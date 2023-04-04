@@ -23,7 +23,7 @@ public class Game {
     private Food food;
     private boolean paused = false;
     private ControllerListener controller;
-    private HighScore highscore;
+    private HighScore highScore;
 
     // Save a copy of allPositions to avoid creating a new list every time
     private static List<Coordinate> allPositions = IntStream.range(0, Constants.COLUMNCOUNT)
@@ -34,7 +34,7 @@ public class Game {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT));
         this.score = 0;
-        highscore = new HighScore("highscore.txt");
+        highScore = new HighScore("highscore.txt");
         food = new Food(getRandomAvailablePosition());
     }
 
@@ -42,7 +42,7 @@ public class Game {
         this.snake = new Snake((int) Math.floor(Math.random() * Constants.COLUMNCOUNT),
                 (int) Math.floor(Math.random() * Constants.ROWCOUNT), allowDuplicatesInputs);
         this.score = 0;
-        highscore = new HighScore("highscore.txt");
+        highScore = new HighScore("highscore.txt");
         food = new Food(getRandomAvailablePosition());
     }
 
@@ -78,7 +78,7 @@ public class Game {
         // Observable
         if (controller != null) {
             controller.setScoreText(score);
-            if (score >= highscore.getHighScore())
+            if (score >= highScore.getHighScore())
                 controller.setHighscoreText(score);
         }
     }
@@ -97,7 +97,7 @@ public class Game {
         } else {
             gameOver = true;
             String playerType = this instanceof GameAI ? "AI" : "Human";
-            highscore.addScore(score, playerType);
+            highScore.addScore(score, playerType);
             snake.setHeadColor(Color.web("#ff0000"));
             snake.setBodyColor(Color.web("#fb5d39"));
             if (controller != null)
@@ -130,7 +130,7 @@ public class Game {
     }
 
     public int getHighScore() {
-        return Math.max(score, highscore.getHighScore());
+        return Math.max(score, highScore.getHighScore());
     }
 
 }
