@@ -13,7 +13,7 @@ import Snake.Model.Game;
 public class GameAI extends Game {
 
     /** The number of moves the AI should look ahead */
-    private int movesDepth = 3;
+    private int movesDepth = 5;
 
     public GameAI() {
         super(true);
@@ -28,7 +28,10 @@ public class GameAI extends Game {
         if (isGameOver() || getPaused())
             return;
         if (getSnake().getDirectionSize() == 0) {
+            long startTime = System.nanoTime();
             List<DirectionData> bestMove = SnakeAI.AINextMove(getSnake(), movesDepth, movesDepth, getFood(), null);
+            long endTime = System.nanoTime();
+            System.out.println("Time taken: " + (endTime - startTime) / 1000000d + "ms");
             if (bestMove != null) {
                 getSnake().addDirection(
                         bestMove.stream().map(direction -> direction.getDirection()).collect(Collectors.toList()));

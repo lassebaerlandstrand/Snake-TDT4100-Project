@@ -4,7 +4,7 @@ This repository is related to a project for [TDT4100 - Object Oriented Programmi
 
 ## Project description
 
-This project creates the classic video game Snake. In addition I created a Snake AI, which uses an self-created algorithm to control the snake's movement based on looking certain moves ahead, and deciding the optimal move. <br/>
+This project creates the classic video game Snake. In addition I created a Snake AI, which uses a self-created algorithm to control the snake's movement based on looking certain moves ahead, and deciding the optimal move. <br/>
 The UI and color choices are inspired by Google's Snake. <br/><br/>
 Short description about Snake: <br/>
 Snake is a classic game in which the player controls a growing snake as it moves around a confined space, such as a grid. The objective of the game is to eat as many randomly placed apples as possible without colliding with the walls or the snake's own body. As the snake consumes more objects, it grows in length, making it more challenging to avoid obstacles and navigate the playing field. The game continues until the snake collides with a wall or its own body, at which point the player loses and must start again from the beginning.
@@ -19,7 +19,7 @@ Run the main method in the [App Application](src/main/java/Snake/App.java). Then
 ### Structure
 
 This project follows the [Model](src/main/java/Snake/Model/)-[View](src/main/java/Snake/View/)-[Controller](src/main/java/Snake/Controller/) (MVC) design pattern.
-The game logic is seperated into the [Model folder](src/main/java/Snake/Model/), and operate independently of the View and Controller, and therefore has no knowledge of the View's existence. It does however know about an [interface](src/main/java/Snake/Controller/ControllerListener.java) of the controller, which is used to implement the Observer-Observable pattern. Additionally, there is a [Utilities](src/main/java/Snake/Utils/) folder, containing various global classes and data types.
+The game logic is seperated into the [Model package](src/main/java/Snake/Model/), and operate independently of the View and Controller, and therefore has no knowledge of the View's existence. It does however know about an [interface](src/main/java/Snake/Controller/ControllerListener.java) of the controller, which is used to implement the Observer-Observable pattern. Additionally, there is an [Utilities](src/main/java/Snake/Utils/) folder, containing various global classes and data types.
 
 ### Input handling
 
@@ -39,7 +39,7 @@ The optimized method uses the same time to create a 7000x7000 grid as the naive 
 
 Ongoing rendering: <br/>
 Initially the game could only handle a 100x100 grid with 20 fps (with flickering). This was the naive method of redrawing the whole canvas on each frame, which resulted in poor performance. The optimized method bases itself on the previous frame, and only redraws the difference. Since there are at max only 4 squares which have changed (1 for snake's head, 2 for snake's body, 1 for apple), we would only redraw at max 4 squares.
-This gives an enormous performance boost, as where we previously drew 10000 squares (in a 100x100 grid), we now only draw max 4 squares. The numbers of draw calls can therefore be described as an improvement from O(n<sup>2</sup>) to O(1). <br/><br/>
+This gives an enormous performance boost, as where we previously drew 10000 squares (in a 100x100 grid), we now only draw a maximum of 4 squares. The numbers of draw calls can therefore be described as an improvement from O(n<sup>2</sup>) to O(1). <br/><br/>
 
 Combined, these optimizations enable one to play on a 4000x4000 grid without any performance issues. In tests, the initialization process took 3 seconds, and the game ran at over 1000 frames per second.
 

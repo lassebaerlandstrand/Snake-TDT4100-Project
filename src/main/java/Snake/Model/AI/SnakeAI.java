@@ -26,7 +26,7 @@ import Snake.Utils.Coordinate;
  */
 public final class SnakeAI extends Snake {
 
-    private static int threadPool = Runtime.getRuntime().availableProcessors() / 2;
+    private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors() / 2;
 
     private SnakeAI() {
         super(null, true);
@@ -93,7 +93,9 @@ public final class SnakeAI extends Snake {
     public static List<List<DirectionData>> AINextMoveRecursion(Snake currentSnake, int depth,
             Coordinate food, List<DirectionData> previousDirections) {
         List<List<DirectionData>> directions = new ArrayList<>();
-        ExecutorService executor = Executors.newFixedThreadPool(threadPool);
+
+        // Testing resulted in creating executor service here to be faster than creating in AINextMove
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE); // Possibly use cached thread pool
         List<Future<List<List<DirectionData>>>> futureResults = new ArrayList<>();
 
         List<int[]> validDirections = SnakeAI.getValidDirections(currentSnake);
