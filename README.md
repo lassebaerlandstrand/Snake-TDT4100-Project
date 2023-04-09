@@ -1,4 +1,5 @@
 # TDT4100 - Project
+*This is not the [Documentation description](TDT4100%20-%20Documentation.md)-file. If you are correcting this according to the documentation description, go to this [file](TDT4100%20-%20Documentation.md).*
 
 This repository is related to a project for [TDT4100 - Object Oriented Programming](https://www.ntnu.no/studier/emner/TDT4100)
 
