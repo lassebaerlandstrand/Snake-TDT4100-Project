@@ -169,8 +169,6 @@ public final class SnakeAI extends Snake {
 
     /** Floodfill algorithm, returns size of visited area */
     public static int floodFill(Snake snake, Coordinate position, boolean[][] visited) {
-        int columns = visited.length;
-        int rows = visited[0].length;
 
         List<Integer> transitionX = new ArrayList<>(Arrays.asList(1, -1, 0, 0));
         List<Integer> transitionY = new ArrayList<>(Arrays.asList(0, 0, 1, -1));
@@ -178,6 +176,7 @@ public final class SnakeAI extends Snake {
         Queue<Coordinate> queue = new PriorityQueue<Coordinate>();
         queue.add(position);
         visited[position.getX()][position.getY()] = true;
+        int count = 1;
 
         while (!queue.isEmpty()) {
             Coordinate currentPos = queue.poll();
@@ -187,15 +186,6 @@ public final class SnakeAI extends Snake {
                 if (isValidCell(visited, newPos, snake)) {
                     visited[newPos.getX()][newPos.getY()] = true;
                     queue.add(newPos);
-                }
-            }
-        }
-
-        // Count how many cells are visited
-        int count = 0;
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
-                if (visited[i][j]) {
                     count++;
                 }
             }
