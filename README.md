@@ -55,7 +55,7 @@ The `SnakeAI` class is comprised solely of static methods. The primary method, `
 To further enhance performance, the AI's recursion method now utilizes multithreading.
 
 ## Class diagram
-The image below shows the class diagram for the `Game` class and its related classes. The attributes and methods of `FXMLController` have been omitted as we are only implementing an interface of it, and do not require knowledge of its internal implementation from the perspective of the `Game` class. 
+The image below shows the class diagram for the Model part of the project. The attributes and methods of `FXMLController` have been omitted as we are only implementing an interface of it, and do not require knowledge of its internal implementation from the perspective of the `Game` class. 
 ![Class diagram](img/TDT4100%20-%20Project%20-%20Class%20Diagram.jpg)
 
 ## Images of the game
